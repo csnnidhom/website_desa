@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Berita;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,8 +17,9 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $data = Berita::latest()->paginate(10);
-        return view('admin/berita', compact('data'));
+        $data = Berita::all();
+        $name_category = Category::all();
+        return view('admin/berita', compact('data', 'name_category'));
     }
 
     /**
@@ -39,18 +41,19 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name_category' => 'required',
             'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
         //upload image
-        $image = $request->file('image');
-        $image->storeAs('/public/berita', $image->hashName());
+        $path = $request->file('image')->store('public/image');
 
-        Berita::create([
-            'image' => $image->hashName(),
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
+        $berita = new Berita();
+        $berita->title = $request->title;
+        $berita->content = $request->content;
+        $berita->id_category = $request->name_category;
+        $berita->image = $path;
+        $berita->save();
 
         return redirect('admin/berita')->with('success', 'Post has been created successfully.');
     }
@@ -86,10 +89,22 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name_category' => 'required',
+        ]);
+
         $berita = Berita::find($id);
-        $berita->image = $request->image;
+        if ($request->image) {
+            $request->validate([
+                'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            ]);
+            $path = $request->file('image')->store('public/images');
+            $berita->image = $path;
+        }
+
         $berita->title = $request->title;
         $berita->content = $request->content;
+        $berita->id_category = $request->name_category;
         $berita->save();
 
         return redirect('admin/berita')->with('success', 'Post Update Successfully');

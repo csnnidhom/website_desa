@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
@@ -26,6 +27,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('/admin/dashboard', DashboardController::class);
     Route::resource('/admin/berita', BeritaController::class);
+    Route::resource('/admin/kategori', CategoryController::class);
 });
 
 

@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Berita;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
-class beritaSeeder extends Seeder
+class BeritaSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,9 +14,12 @@ class beritaSeeder extends Seeder
      */
     public function run()
     {
-        // Berita::truncate();
-        // Berita::create([
-        //     'image' => 
-        // ])
+        $berita = [
+            'image' => 'coba.png',
+            'title' => 'dari seeder',
+            'content' => 'dari seeder',
+            'id_category' => '1'
+        ];
+        DB::table('berita')->insert($berita);
     }
 }

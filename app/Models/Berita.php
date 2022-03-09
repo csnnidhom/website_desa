@@ -10,6 +10,11 @@ class Berita extends Model
     use HasFactory;
     protected $table = 'berita';
     protected $fillable = [
-        'image', 'title', 'content'
+        'image', 'title', 'content', 'id_category'
     ];
+
+    public function beritacategory()
+    {
+        return $this->belongsTo(Category::class, 'id_category');
+    }
 }
