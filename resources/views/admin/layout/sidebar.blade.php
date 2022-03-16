@@ -28,12 +28,12 @@
                 </a>
                 <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                     <li>
-                        <a href="icons-bootstrap.html">
+                        <a href="/admin/image">
                             <i class="bi bi-circle"></i><span>Foto</span>
                         </a>
                     </li>
                     <li>
-                        <a href="icons-remix.html">
+                        <a href="/admin/video">
                             <i class="bi bi-circle"></i><span>Video</span>
                         </a>
                     </li>

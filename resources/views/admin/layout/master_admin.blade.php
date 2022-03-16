@@ -70,6 +70,10 @@
 
     <!-- Template Main JS File -->
     <script src="{{ asset('nice_admin/assets/js/main.js') }}"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replaceAll('my-editor');
+    </script>
 
 </body>
 

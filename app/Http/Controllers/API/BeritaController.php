@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
-use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use App\Models\Berita;
-use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 class BeritaController extends Controller
 {
@@ -17,9 +15,11 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $data = Berita::all();
-        $name_category = Category::all();
-        return view('admin/berita', compact('data', 'name_category'));
+
+
+        return response()->json([
+            'message' => 'Ini Halaman Berita',
+        ], 200);
     }
 
     /**
@@ -41,21 +41,28 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name_category' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg'
+            'image' => 'required',
+            'title' => 'required',
+            'content' => 'required',
+            'id_category' => 'required'
         ]);
 
+        // dd($request->all());
+
         //upload image
-        $path = $request->file('image')->store('public/image');
+        // $path = $request->file('image')->store('public/image');
 
         $berita = new Berita();
         $berita->title = $request->title;
         $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->image = $path;
+        $berita->id_category = $request->id_category;
+        $berita->image = $request->image;
         $berita->save();
 
-        return redirect('admin/berita')->with('success', 'Post has been created successfully.');
+        return response()->json([
+            'message' => 'Berhasil Menambahkan',
+            'data_berita' => $berita
+        ], 200);
     }
 
     /**
@@ -77,7 +84,13 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $berita = Berita::find($id);
+        // dd($berita);
+
+        return response()->json([
+            'message' => 'Success',
+            'data_berita' => $berita
+        ], 200);
     }
 
     /**
@@ -89,25 +102,27 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $berita = Berita::find($id);
+
         $request->validate([
-            'name_category' => 'required',
+            'image' => 'required',
+            'title' => 'required',
+            'content' => 'required',
+            'id_category' => 'required'
         ]);
 
-        $berita = Berita::find($id);
-        if ($request->image) {
-            $request->validate([
-                'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-            ]);
-            $path = $request->file('image')->store('public/update_images');
-            $berita->image = $path;
-        }
+        $berita->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'id_category' => $request->id_category,
+            'image' => $request->image,
+        ]);
+        // dd($berita);
 
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->save();
-
-        return redirect('admin/berita')->with('success', 'Post Update Successfully');
+        return response()->json([
+            'message' => 'Berhasil Merubah Data',
+            'data_berita' => $berita
+        ], 200);
     }
 
     /**
@@ -118,7 +133,10 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('berita')->where('id', $id)->delete();
-        return redirect('admin/berita')->with('success', 'Post Has Been Deleted');
+        $berita = Berita::find($id)->delete();
+        // dd($berita);
+        return response()->json([
+            'message' => 'Berhasil Menghapus'
+        ], 200);
     }
 }

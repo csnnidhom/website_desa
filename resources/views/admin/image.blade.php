@@ -15,11 +15,15 @@
         <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
         @enderror
 
+        @error('image')
+        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+        @enderror
+
         <div class="col-lg-12 margin-tb">
             <div class="pull-right mb-2">
                 <div class="row justify-content-between">
                     <div class="col-4">
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#createBerita"> Create New Post</a>
+                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#createImage"> Create New Post</a>
                     </div>
                 </div>
             </div>
@@ -29,9 +33,8 @@
         <table class="table table-bordered" style="text-align: center;">
             <tr>
                 <th>No</th>
-                <th>Image</th>
                 <th>Title</th>
-                <th>Content</th>
+                <th>Image</th>
                 <th>Category</th>
                 <th width=" 280px">Action</th>
             </tr>
@@ -39,13 +42,12 @@
             @forelse ($data as $item)
             <tr>
                 <td>{{ $no++ }}</td>
-                <td class="text-center"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 150px"></td>
                 <td>{{ $item->title }}</td>
-                <td>{!! $item->content !!}</td>
+                <td class="text-center"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 150px"></td>
                 <td>{{ $item->category['name']}}</td>
                 <td>
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editBerita{{ $item->id }}" href="#">Edit</a>
-                    <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editImage{{ $item->id }}" href="#">Edit</a>
+                    <form action="{{ route('image.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
                         @method('DELETE')
                         @csrf
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
@@ -61,13 +63,14 @@
         </table>
     </div>
 </div>
+
 @endsection
 
 @section('modal')
 
-<!-- Modal Create Berita -->
+<!-- Modal Create Image -->
 @foreach ($data as $item)
-<div class="modal fade" id="createBerita" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="createImage" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content bg-light">
             <div class="modal-header ">
@@ -75,7 +78,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('image.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -84,12 +87,12 @@
                                 <input class="form-control" name="title" value="{{ old('title') }}" placeholder="Title" required></input>
                             </div>
                             <div class="form-group">
-                                <strong>Content :</strong>
-                                <textarea class="my-editor form-control" style="height:150px" name="content" placeholder="Content" required>{{ old('content') }}</textarea>
-                            </div>
-                            <div class="form-group">
                                 <strong>Image :</strong>
                                 <input type="file" name="image" class="form-control" required>
+
+                                @error('image')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <strong>Category:</strong>
@@ -119,9 +122,9 @@
 
 @endsection
 
-<!-- Modal Edit Berita-->
+<!-- Modal Edit Image-->
 @foreach ($data as $item)
-<div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="editImage{{ $item->id }}" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content bg-light">
             <div class="modal-header">
@@ -129,7 +132,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('berita.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('image.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -137,10 +140,6 @@
                             <div class="form-group">
                                 <strong>Tittle :</strong>
                                 <input type="text" name="title" value="{{ $item->title }}" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <strong>Content :</strong>
-                                <textarea class="my-editor form-control" style="height:150px" name="content" required>{{ $item->content }}</textarea>
                             </div>
                             <div class="form-group">
                                 <strong>Image :</strong>

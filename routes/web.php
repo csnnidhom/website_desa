@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\VideoController;
 use GuzzleHttp\Middleware;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -23,11 +25,14 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 //login
 Route::get('/admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('/postLogin', [LoginController::class, 'postLogin'])->name('postLogin');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::group(['middleware' => ['auth']], function () {
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::resource('/admin/dashboard', DashboardController::class);
     Route::resource('/admin/berita', BeritaController::class);
     Route::resource('/admin/kategori', CategoryController::class);
+    Route::resource('/admin/image', ImageController::class);
+    Route::resource('/admin/video', VideoController::class);
 });
 
 

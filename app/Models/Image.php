@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Berita extends Model
+class Image extends Model
 {
     use HasFactory;
-    protected $table = 'berita';
+    protected $table = 'image';
     protected $fillable = [
-        'image', 'title', 'content', 'id_category'
+        'title', 'image', 'id_category'
     ];
 
     public function category()

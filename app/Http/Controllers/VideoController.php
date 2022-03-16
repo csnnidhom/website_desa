@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\Berita;
 use App\Models\Category;
+use App\Models\Video;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
-class BeritaController extends Controller
+class VideoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,9 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $data = Berita::all();
+        $data = Video::all();
         $name_category = Category::all();
-        return view('admin/berita', compact('data', 'name_category'));
+        return view('admin/video', compact('data', 'name_category'));
     }
 
     /**
@@ -42,20 +41,18 @@ class BeritaController extends Controller
     {
         $request->validate([
             'name_category' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg'
+            'video' => 'required|file|mimetypes:video/mp4',
         ]);
 
-        //upload image
-        $path = $request->file('image')->store('public/image');
+        $path = $request->file('video')->store('public/video');
 
-        $berita = new Berita();
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->image = $path;
-        $berita->save();
+        $image = new Video();
+        $image->title = $request->title;
+        $image->id_category = $request->name_category;
+        $image->video = $path;
+        $image->save();
 
-        return redirect('admin/berita')->with('success', 'Post has been created successfully.');
+        return redirect('admin/video')->with('success', 'Post has been created successfully.');
     }
 
     /**
@@ -93,21 +90,20 @@ class BeritaController extends Controller
             'name_category' => 'required',
         ]);
 
-        $berita = Berita::find($id);
-        if ($request->image) {
+        $video = Video::find($id);
+        if ($request->video) {
             $request->validate([
-                'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+                'video' => 'required|file|mimetypes:video/mp4',
             ]);
-            $path = $request->file('image')->store('public/update_images');
-            $berita->image = $path;
+            $path = $request->file('video')->store('public/update_video');
+            $video->video = $path;
         }
 
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->save();
+        $video->title = $request->title;
+        $video->id_category = $request->name_category;
+        $video->save();
 
-        return redirect('admin/berita')->with('success', 'Post Update Successfully');
+        return redirect('admin/video')->with('success', 'Post Update Successfully');
     }
 
     /**
@@ -118,7 +114,7 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('berita')->where('id', $id)->delete();
-        return redirect('admin/berita')->with('success', 'Post Has Been Deleted');
+        DB::table('video')->where('id', $id)->delete();
+        return redirect('admin/video')->with('success', 'Post Has Been Deleted');
     }
 }

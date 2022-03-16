@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\Berita;
 use App\Models\Category;
+use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
-class BeritaController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +16,9 @@ class BeritaController extends Controller
      */
     public function index()
     {
-        $data = Berita::all();
+        $data = Image::all();
         $name_category = Category::all();
-        return view('admin/berita', compact('data', 'name_category'));
+        return view('/admin/image', compact('data', 'name_category'));
     }
 
     /**
@@ -45,17 +44,15 @@ class BeritaController extends Controller
             'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
-        //upload image
         $path = $request->file('image')->store('public/image');
 
-        $berita = new Berita();
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->image = $path;
-        $berita->save();
+        $image = new Image();
+        $image->title = $request->title;
+        $image->id_category = $request->name_category;
+        $image->image = $path;
+        $image->save();
 
-        return redirect('admin/berita')->with('success', 'Post has been created successfully.');
+        return redirect('admin/image')->with('success', 'Post has been created successfully.');
     }
 
     /**
@@ -93,21 +90,20 @@ class BeritaController extends Controller
             'name_category' => 'required',
         ]);
 
-        $berita = Berita::find($id);
+        $image = Image::find($id);
         if ($request->image) {
             $request->validate([
                 'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             ]);
             $path = $request->file('image')->store('public/update_images');
-            $berita->image = $path;
+            $image->image = $path;
         }
 
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->name_category;
-        $berita->save();
+        $image->title = $request->title;
+        $image->id_category = $request->name_category;
+        $image->save();
 
-        return redirect('admin/berita')->with('success', 'Post Update Successfully');
+        return redirect('admin/image')->with('success', 'Post Update Successfully');
     }
 
     /**
@@ -118,7 +114,7 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('berita')->where('id', $id)->delete();
-        return redirect('admin/berita')->with('success', 'Post Has Been Deleted');
+        DB::table('image')->where('id', $id)->delete();
+        return redirect('admin/image')->with('success', 'Post Has Been Deleted');
     }
 }
