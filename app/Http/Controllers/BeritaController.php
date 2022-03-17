@@ -19,7 +19,8 @@ class BeritaController extends Controller
     {
         $data = Berita::all();
         $name_category = Category::all();
-        return view('admin/berita', compact('data', 'name_category'));
+        $title = 'Berita';
+        return view('admin/berita', compact('data', 'name_category', 'title'));
     }
 
     /**

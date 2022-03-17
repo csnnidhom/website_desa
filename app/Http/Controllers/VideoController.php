@@ -18,7 +18,8 @@ class VideoController extends Controller
     {
         $data = Video::all();
         $name_category = Category::all();
-        return view('admin/video', compact('data', 'name_category'));
+        $title = 'Video';
+        return view('admin/video', compact('data', 'name_category', 'title'));
     }
 
     /**

@@ -18,7 +18,8 @@ class ImageController extends Controller
     {
         $data = Image::all();
         $name_category = Category::all();
-        return view('/admin/image', compact('data', 'name_category'));
+        $title = 'Image';
+        return view('/admin/image', compact('data', 'name_category', 'title'));
     }
 
     /**

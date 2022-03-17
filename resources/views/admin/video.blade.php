@@ -1,65 +1,76 @@
 @extends('admin.layout.master_admin')
 
-@section('tittle', 'Berita')
-
 @section('content')
-<div class="section-header ">
-    <div class="col-md-12 bg-white p-4">
-        @if ($message = Session::get('success'))
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-        @endif
+@if ($message = Session::get('success'))
+<div class="alert alert-success">
+    <p>{{ $message }}</p>
+</div>
+@endif
 
-        @error('name_category')
-        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-        @enderror
+@error('name_category')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
 
-        @error('video')
-        <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-        @enderror
+@error('video')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
 
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-right mb-2">
-                <div class="row justify-content-between">
-                    <div class="col-4">
-                        <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#createVideo"> Create New Post</a>
-                    </div>
-                </div>
+<div class="col-lg-12 margin-tb">
+    <div class="pull-right mb-2">
+        <div class="row justify-content-between">
+            <div class="col-4">
+                <a class="btn bg-gradient-success btn-block mb-3" href="#" data-bs-toggle="modal" data-bs-target="#createVideo"> Create New Post</a>
             </div>
         </div>
+    </div>
+</div>
 
-
-        <table class="table table-bordered" style="text-align: center;">
-            <tr>
-                <th>No</th>
-                <th>Title</th>
-                <th>Video</th>
-                <th>Category</th>
-                <th width=" 280px">Action</th>
-            </tr>
+<div class="card">
+    <div class="table">
+        <table class="table table-hover">
+            <thead class="text-center">
+                <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">No</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Video</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
+                </tr>
+            </thead>
             @php $no=1; @endphp
-            @forelse ($data as $item)
-            <tr>
-                <td>{{ $no++ }}</td>
-                <td>{{ $item->title }}</td>
-                <td class="text-center"><video src="{{ Storage::url($item->video) }}" class="rounded" style="width: 150px"></td>
-                <td>{{ $item->category['name']}}</td>
-                <td>
-                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editVideo{{ $item->id }}" href="#">Edit</a>
-                    <form action="{{ route('video.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
-                    </form>
-
-                </td>
-            </tr>
-            @empty
-            <div class="alert alert-danger">
-                Data Berita belum Tersedia.
-            </div>
-            @endforelse
+            @foreach ($data as $item)
+            <tbody>
+                <tr class="text-center align-middle">
+                    <td>
+                        <span class="badge badge-dot me-4 ">
+                            <i class="bg-info "></i>
+                            <span class="text-dark text-xs">{{ $no++ }}</span>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge badge-dot me-4 ">
+                            <i class="bg-info "></i>
+                            <span class="text-dark text-xs">{{ $item->title }}</span>
+                        </span>
+                    </td>
+                    <td class="text-center"><video src="{{ Storage::url($item->video) }}" class="rounded" style="width: 150px"></td>
+                    <td>
+                        <span class="badge badge-dot me-4 ">
+                            <i class="bg-info "></i>
+                            <span class="text-dark text-xs">{{ $item->category['name']}}</span>
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn bg-gradient-info btn-block" data-bs-toggle="modal" data-bs-target="#editVideo{{ $item->id }}" href="#">Edit</a>
+                        <form action="{{ route('video.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+            @endforeach
         </table>
     </div>
 </div>
@@ -106,7 +117,7 @@
                                 @error('name_category')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
-                            </div><br>
+                            </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
@@ -159,7 +170,7 @@
                                 @error('name_category')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
-                            </div><br>
+                            </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save changes</button>
