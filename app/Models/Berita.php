@@ -10,7 +10,7 @@ class Berita extends Model
     use HasFactory;
     protected $table = 'berita';
     protected $fillable = [
-        'image', 'title', 'content', 'id_category'
+        'image', 'title', 'content', 'id_category', 'status'
     ];
 
     public function category()

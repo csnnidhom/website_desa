@@ -22,8 +22,8 @@
 </div>
 
 <div class="card">
-    <div class="table">
-        <table class="table table-hover">
+    <div class="table table-responsive">
+        <table class="table table-hover ">
             <thead class="text-center">
                 <tr>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">No</th>
@@ -31,6 +31,7 @@
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Content</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
                     <th></th>
                 </tr>
@@ -54,10 +55,7 @@
                         </span>
                     </td>
                     <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{!! $item->content !!}</span>
-                        </span>
+                        {!! $item->content !!}
                     </td>
                     <td>
                         <span class="badge badge-dot me-4 ">
@@ -65,14 +63,30 @@
                             <span class="text-dark text-xs">{{ $item->category['name']}}</span>
                         </span>
                     </td>
-
                     <td>
-                        <a class="btn bg-gradient-info btn-block" data-bs-toggle="modal" data-bs-target="#editBerita{{ $item->id }}" href="#">Edit</a>
+                        <span class="badge badge-dot me-4 ">
+                            <i class="bg-info "></i>
+                            <span class="badge {{ ($item->status == 1 ? 'bg-gradient-success' : 'bg-gradient-danger') }}">
+                                {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
+                            </span>
+                        </span>
+                    </td>
+                    <td>
+                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editBerita{{ $item->id }}" href="#">
+                            <i class="fas fa-pencil-alt"> Edit</i>
+                        </a>
                         <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
                             @method('DELETE')
                             @csrf
-                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
-                        </form>
+                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                <i class="far fa-trash-alt">Delete</i>
+                            </button>
+                        </form><br>
+                        @if ($item->status == 1)
+                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge bg-gradient-danger">Non-Aktifkan</a>
+                        @else
+                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge bg-gradient-success">Aktifkan</a>
+                        @endif
                     </td>
                 </tr>
             </tbody>
@@ -87,7 +101,7 @@
 <!-- Modal Create Berita -->
 @foreach ($data as $item)
 <div class="modal fade" id="createBerita" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content bg-light">
             <div class="modal-header ">
                 <h5 class="modal-title ">Create</h5>
@@ -141,7 +155,7 @@
 <!-- Modal Edit Berita-->
 @foreach ($data as $item)
 <div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content bg-light">
             <div class="modal-header">
                 <h5 class="modal-title">Edit</h5>

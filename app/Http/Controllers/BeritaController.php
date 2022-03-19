@@ -122,4 +122,22 @@ class BeritaController extends Controller
         DB::table('berita')->where('id', $id)->delete();
         return redirect('admin/berita')->with('success', 'Post Has Been Deleted');
     }
+
+    public function ubahStatus($id)
+    {
+        $data = Berita::where('id', $id)->first();
+
+        $status_sekarang = $data->status;
+
+        if ($status_sekarang == 1) {
+            Berita::where('id', $id)->update([
+                'status' => 0
+            ]);
+        } else {
+            Berita::where('id', $id)->update([
+                'status' => 1
+            ]);
+        }
+        return redirect('admin/berita')->with('success', 'Status Berhasil diubah');
+    }
 }

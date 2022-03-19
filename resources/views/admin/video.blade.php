@@ -26,7 +26,7 @@
 </div>
 
 <div class="card">
-    <div class="table">
+    <div class="table table-responsive">
         <table class="table table-hover">
             <thead class="text-center">
                 <tr>
@@ -61,11 +61,15 @@
                         </span>
                     </td>
                     <td>
-                        <a class="btn bg-gradient-info btn-block" data-bs-toggle="modal" data-bs-target="#editVideo{{ $item->id }}" href="#">Edit</a>
+                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editVideo{{ $item->id }}" href="#">
+                            <i class="fas fa-pencil-alt"> Edit</i>
+                        </a>
                         <form action="{{ route('video.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
                             @method('DELETE')
                             @csrf
-                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
+                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                <i class="far fa-trash-alt">Delete</i>
+                            </button>
                         </form>
                     </td>
                 </tr>
@@ -154,7 +158,7 @@
                             </div>
                             <div class="form-group">
                                 <strong>Video :</strong>
-                                <input class="form-control" type="file" name="video" value="{{ $item->image }}" required>
+                                <input class="form-control" type="file" name="video" value="{{ $item->video }}" required>
                                 @error('video')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror

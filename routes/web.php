@@ -31,6 +31,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
     Route::resource('/admin/dashboard', DashboardController::class);
     Route::resource('/admin/berita', BeritaController::class);
+    Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
     Route::resource('/admin/kategori', CategoryController::class);
     Route::resource('/admin/image', ImageController::class);
     Route::resource('/admin/video', VideoController::class);

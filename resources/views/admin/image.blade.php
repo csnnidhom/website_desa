@@ -27,7 +27,7 @@
 </div>
 
 <div class="card">
-    <div class="table">
+    <div class="table table-responsive">
         <table class="table table-hover">
             <thead class="text-center">
                 <tr>
@@ -62,11 +62,15 @@
                         </span>
                     </td>
                     <td>
-                        <a class="btn bg-gradient-info btn-block" data-bs-toggle="modal" data-bs-target="#editImage{{ $item->id }}" href="#">Edit</a>
+                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editImage{{ $item->id }}" href="#">
+                            <i class="fas fa-pencil-alt"> Edit</i>
+                        </a>
                         <form action="{{ route('image.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
                             @method('DELETE')
                             @csrf
-                            <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Delete</button>
+                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                <i class="far fa-trash-alt">Delete</i>
+                            </button>
                         </form>
                     </td>
                 </tr>
