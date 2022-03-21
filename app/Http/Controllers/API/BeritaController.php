@@ -4,7 +4,10 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Validator;
 
 class BeritaController extends Controller
 {
@@ -16,9 +19,10 @@ class BeritaController extends Controller
     public function index()
     {
 
-
+        $data = Berita::all();
         return response()->json([
             'message' => 'Ini Halaman Berita',
+            'data' => $data
         ], 200);
     }
 
@@ -40,29 +44,33 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'image' => 'required',
             'title' => 'required',
             'content' => 'required',
             'id_category' => 'required'
         ]);
 
-        // dd($request->all());
-
         //upload image
         // $path = $request->file('image')->store('public/image');
 
-        $berita = new Berita();
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->id_category = $request->id_category;
-        $berita->image = $request->image;
-        $berita->save();
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-        return response()->json([
-            'message' => 'Berhasil Menambahkan',
-            'data_berita' => $berita
-        ], 200);
+        try {
+            $data = Berita::create($request->all());
+            $response = [
+                'message' => 'Berhasil Menambahkan',
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Gagal Menambahkan' . $e->errorInfo
+            ]);
+        }
     }
 
     /**
@@ -73,7 +81,11 @@ class BeritaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Berita::find($id);
+        return response()->json([
+            'message' => "data sesuai id",
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -84,13 +96,7 @@ class BeritaController extends Controller
      */
     public function edit($id)
     {
-        $berita = Berita::find($id);
-        // dd($berita);
-
-        return response()->json([
-            'message' => 'Success',
-            'data_berita' => $berita
-        ], 200);
+        //
     }
 
     /**
@@ -102,27 +108,34 @@ class BeritaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $berita = Berita::find($id);
-
-        $request->validate([
+        $data = Berita::find($id);
+        $validator = Validator::make($request->all(), [
             'image' => 'required',
             'title' => 'required',
             'content' => 'required',
             'id_category' => 'required'
         ]);
 
-        $berita->update([
-            'title' => $request->title,
-            'content' => $request->content,
-            'id_category' => $request->id_category,
-            'image' => $request->image,
-        ]);
-        // dd($berita);
+        //upload image
+        // $path = $request->file('image')->store('public/image');
 
-        return response()->json([
-            'message' => 'Berhasil Merubah Data',
-            'data_berita' => $berita
-        ], 200);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        try {
+            $data->update($request->all());
+            $response = [
+                'message' => 'Berhasil Merubah',
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Gagal Merubah' . $e->errorInfo
+            ]);
+        }
     }
 
     /**
@@ -133,10 +146,17 @@ class BeritaController extends Controller
      */
     public function destroy($id)
     {
-        $berita = Berita::find($id)->delete();
-        // dd($berita);
-        return response()->json([
-            'message' => 'Berhasil Menghapus'
-        ], 200);
+        $data = Berita::find($id);
+        try {
+            $data->delete();
+            $response = [
+                'message' => 'Berhasil Menghapus',
+            ];
+            return response()->json($response, 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Gagal Menghapus' . $e->errorInfo
+            ]);
+        }
     }
 }

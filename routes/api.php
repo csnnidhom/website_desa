@@ -20,11 +20,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('admin/berita', [BeritaController::class, 'index']);
-    Route::post('admin/create', [BeritaController::class, 'store']);
-    Route::get('admin/edit/{id}', [BeritaController::class, 'edit']);
-    Route::post('admin/edit/{id}', [BeritaController::class, 'update']);
-    Route::get('admin/delete/{id}', [BeritaController::class, 'destroy']);
+    Route::resource('admin/berita', BeritaController::class);
     Route::get('admin/logout', [AuthController::class, 'logout']);
 });
 
