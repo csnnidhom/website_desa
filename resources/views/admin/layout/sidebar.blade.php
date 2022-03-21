@@ -10,7 +10,8 @@
     <div class="collapse navbar-collapse  w-auto  max-height-vh-100 h-100" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item ">
-                <a class="nav-link {{ (request()->is('admin/dashboard')) ? 'active' : '' }}" href="/admin/dashboard">
+                <!-- <a class="nav-link {{ (request()->is('admin/dashboard')) ? 'active' : '' }}" href="/admin/dashboard"> -->
+                <router-link to="dashboard" class="nav-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>shop </title>
@@ -27,10 +28,12 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
+                </router-link>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ (request()->is('admin/berita')) ? 'active' : '' }}" href="/admin/berita">
+                <!-- <a class="nav-link {{ (request()->is('admin/berita')) ? 'active' : '' }}" href="/admin/berita"> -->
+                <router-link to="berita" class="nav-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 40 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>document</title>
@@ -47,10 +50,11 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Berita</span>
-                </a>
+                    </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  {{ (request()->is('admin/kategori')) ? 'active' : '' }}" href="/admin/kategori">
+                <!-- <a class="nav-link  {{ (request()->is('admin/kategori')) ? 'active' : '' }}" href="/admin/kategori"> -->
+                <router-link to="kategori" class="nav-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>credit-card</title>
@@ -67,10 +71,11 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Kategori</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ (request()->is('admin/image')) ? 'active' : '' }}" href="/admin/image">
+                <!-- <a class="nav-link {{ (request()->is('admin/image')) ? 'active' : '' }}" href="/admin/image"> -->
+                <router-link to="image" class="nav-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>box-3d-50</title>
@@ -88,10 +93,11 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Image</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ (request()->is('admin/video')) ? 'active' : '' }}" href="/admin/video">
+                <!-- <a class="nav-link {{ (request()->is('admin/video')) ? 'active' : '' }}" href="/admin/video"> -->
+                <router-link to="video" class="nav-link">
                     <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <title>office</title>
@@ -108,7 +114,7 @@
                         </svg>
                     </div>
                     <span class="nav-link-text ms-1">Video</span>
-                </a>
+                </router-link>
             </li>
             <li class="nav-item">
                 <a class="nav-link  " href="{{ route('logout') }}" onclick="return confirm('Yakin Logout?')">

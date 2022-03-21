@@ -18,12 +18,7 @@ class BeritaController extends Controller
      */
     public function index()
     {
-
-        $data = Berita::all();
-        return response()->json([
-            'message' => 'Ini Halaman Berita',
-            'data' => $data
-        ], 200);
+        return Berita::all();
     }
 
     /**

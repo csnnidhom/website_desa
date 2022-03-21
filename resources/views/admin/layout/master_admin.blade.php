@@ -22,17 +22,19 @@
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
-    @include('admin.layout.sidebar')
-    <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
-        <!-- Header -->
-        @include('admin.layout.header')
-        <!-- End Header -->
-        <div class="container-fluid py-4">
-            @yield('content')
-            @include('admin.layout.footer')
-            @yield('modal')
-        </div>
-    </main>
+    <div id="app">
+        @include('admin.layout.sidebar')
+        <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
+            <!-- Header -->
+            @include('admin.layout.header')
+            <!-- End Header -->
+            <div class="container-fluid py-4">
+                @yield('content')
+                @include('admin.layout.footer')
+                @yield('modal')
+            </div>
+        </main>
+    </div>
     @include('admin.layout.setting_template')
     <!--   Core JS Files   -->
     <script src="{{ asset('admin_template/js/core/popper.min.js') }}"></script>
@@ -227,6 +229,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('admin_template/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
+    <script src="{{mix('js/app.js')}}"></script>
 </body>
 
 
