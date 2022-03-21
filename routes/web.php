@@ -29,7 +29,8 @@ Route::post('/postLogin', [LoginController::class, 'postLogin'])->name('postLogi
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-    Route::resource('/admin/dashboard', DashboardController::class);
+    Route::get('/admin', [DashboardController::class, 'index']);
+    Route::get('/admin/dashboard', [DashboardController::class, 'index']);
     Route::resource('/admin/berita', BeritaController::class);
     Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
     Route::resource('/admin/kategori', CategoryController::class);
