@@ -39,33 +39,7 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'image' => 'required',
-            'title' => 'required',
-            'content' => 'required',
-            'id_category' => 'required'
-        ]);
-
-        //upload image
-        // $path = $request->file('image')->store('public/image');
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        try {
-            $data = Berita::create($request->all());
-            $response = [
-                'message' => 'Berhasil Menambahkan',
-                'data' => $data
-            ];
-
-            return response()->json($response, 200);
-        } catch (QueryException $e) {
-            return response()->json([
-                'message' => 'Gagal Menambahkan' . $e->errorInfo
-            ]);
-        }
+        dd($request->all());
     }
 
     /**

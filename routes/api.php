@@ -23,13 +23,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 
 
-    Route::get('admin/logout', [AuthController::class, 'logout']);
+    // Route::get('admin/logout', [AuthController::class, 'logout']);
 });
 
-Route::post('admin/login', [AuthController::class, 'login'])->name('login');
+// Route::post('admin/login', [AuthController::class, 'login'])->name('login');
 
 //vue
 Route::resource('admin/berita', BeritaController::class);
 Route::resource('admin/kategori', CategoryController::class);
-Route::resource('admin/image', ImageController::class);
-Route::resource('admin/video', VideoController::class);
+// Route::resource('admin/image', ImageController::class);
+// Route::resource('admin/video', VideoController::class);
+
+//vue resource
+// Route::apiResource([
+//     'admin/berita' => BeritaController::class,
+// ]);

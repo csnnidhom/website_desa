@@ -14,7 +14,7 @@ class VueController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        return view('admin/dashboard', compact('title'));
+        return view('admin/layout/master_admin', compact('title'));
     }
 
     /**
