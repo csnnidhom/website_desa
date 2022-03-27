@@ -14,6 +14,7 @@ class VideoSeeder extends Seeder
      */
     public function run()
     {
+        Video::truncate();
         Video::create([
             'title' => 'ini title Video',
             'video' => 'ini video',

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Berita;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,8 @@ class BeritaSeeder extends Seeder
             'content' => 'dari seeder',
             'id_category' => '1'
         ];
-        DB::table('berita')->insert($berita);
+
+        Berita::truncate();
+        Berita::insert($berita);
     }
 }

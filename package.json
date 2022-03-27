@@ -24,9 +24,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
-        "bootstrap-vue": "^2.21.2",
-        "vee-validate": "^2.2.15",
+        "sweetalert2": "^11.4.7",
         "vform": "^2.1.2",
+        "vue-progressbar": "^0.7.5",
         "vue-router": "^2.8.1"
     }
 }

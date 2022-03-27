@@ -39,7 +39,17 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required',
+            'id_category' => 'required'
+        ]);
+        return Berita::create([
+            // 'image' => $path,
+            'title' => $request->title,
+            'content' => $request->content,
+            'id_category' => $request->id_category
+        ]);
     }
 
     /**

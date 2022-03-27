@@ -32,6 +32,7 @@
             <!-- End Header -->
             <div class="container-fluid py-4">
                 <router-view></router-view>
+                <vue-progress-bar></vue-progress-bar>
                 @include('admin.layout.footer')
                 @yield('modal')
             </div>
@@ -48,7 +49,7 @@
     <script>
         CKEDITOR.replaceAll('my-editor');
     </script>
-    <script>
+    <!-- <script>
         var ctx = document.getElementById("chart-bars").getContext("2d");
 
         new Chart(ctx, {
@@ -217,7 +218,7 @@
                 },
             },
         });
-    </script>
+    </script> -->
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -231,6 +232,8 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="{{ asset('admin_template/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{{mix('js/app.js')}}"></script>
 </body>
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
 
@@ -20,6 +21,6 @@ class CategorySeeder extends Seeder
             ['name' => 'Remaja Masjid']
         ];
 
-        DB::table('category')->insert($category);
+        Category::insert($category);
     }
 }
