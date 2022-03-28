@@ -37,10 +37,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'kategori' => 'required'
+            'name' => 'required'
         ]);
         Category::insert([
-            'name' => $request->kategori
+            'name' => $request->name
         ]);
     }
 
@@ -75,7 +75,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = Category::find($id);
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
+
+        $name_category = [
+            'name' => $request->name
+        ];
+
+        $data->update($name_category);
     }
 
     /**

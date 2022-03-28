@@ -2,8 +2,21 @@
   <div class="container">
     <div class="row">
       <div class="col-2">
-        <button class="btn btn-primary" href="#" @click="showModal">
+        <button
+          class="btn btn-success"
+          href="#"
+          v-show="!statusModal"
+          @click="showModalCreate"
+        >
           Tambah Kategori
+        </button>
+        <button
+          class="btn btn-success"
+          href="#"
+          @click="showModalCreate"
+          v-show="statusModal"
+        >
+          Ubah Kategori
         </button>
       </div>
     </div>
@@ -52,7 +65,7 @@
             >
               <td>{{ ++index }}</td>
               <td>{{ item.name }}</td>
-              <td>Edit | Hapus</td>
+              <td><a href="#" @click="showModalEdit(item)">Edit</a> | Hapus</td>
             </tr>
           </tbody>
         </table>
@@ -78,7 +91,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <form @submit.prevent="simpanData()">
+          <form @submit.prevent="statusModal ? ubahData() : simpanData()">
             <div class="modal-body">
               <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -87,10 +100,10 @@
                     <input
                       class="form-control"
                       placeholder="Nama Kategori"
-                      v-model="form.kategori"
-                      :class="{ 'is-invalid': form.errors.has('kategori') }"
+                      v-model="form.name"
+                      :class="{ 'is-invalid': form.errors.has('name') }"
                     />
-                    <has-error :form="form" field="kategori"></has-error>
+                    <has-error :form="form" field="name"></has-error>
                   </div>
                 </div>
               </div>
@@ -104,8 +117,19 @@
               >
                 Close
               </button>
-              <button type="submit" class="btn btn-primary">
+              <button
+                type="submit"
+                class="btn btn-success"
+                v-show="!statusModal"
+              >
                 <i v-show="loading" class="fa fa-spinner fa-spin"></i>Simpan
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success"
+                v-show="statusModal"
+              >
+                <i v-show="loading" class="fa fa-spinner fa-spin"></i>Ubah
               </button>
             </div>
           </form>
@@ -122,16 +146,24 @@ export default {
       loading: false,
       disabled: false,
       Categorys: {},
+      statusModal: false,
       form: new Form({
         id: "",
-        kategori: "",
+        name: "",
       }),
     };
   },
   methods: {
-    showModal() {
+    showModalCreate() {
+      this.statusModal = false;
       this.form.reset();
       $("#modalCreate").modal("show");
+    },
+    showModalEdit(item) {
+      this.statusModal = true;
+      this.form.reset();
+      $("#modalCreate").modal("show");
+      this.form.fill(item);
     },
     loadData() {
       this.$Progress.start();
@@ -152,6 +184,29 @@ export default {
           Toast.fire({
             icon: "success",
             title: "Data Berhasil Disimpan",
+          });
+          this.$Progress.finish();
+          this.loading = false;
+          this.disabled = false;
+        })
+        .catch(() => {
+          this.$Progress.fail();
+          this.loading = false;
+          this.disabled = false;
+        });
+    },
+    ubahData() {
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form
+        .put("api/admin/kategori/" + this.form.id)
+        .then(() => {
+          Fire.$emit("refreshData");
+          $("#modalCreate").modal("hide");
+          Toast.fire({
+            icon: "success",
+            title: "Data Berhasil Diubah",
           });
           this.$Progress.finish();
           this.loading = false;

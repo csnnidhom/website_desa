@@ -8,6 +8,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class BeritaController extends Controller
 {
@@ -89,11 +90,19 @@ class BeritaController extends Controller
     {
         $data = Berita::find($id);
         $validator = Validator::make($request->all(), [
-            'image' => 'required',
+            // 'image' => 'required',
             'title' => 'required',
             'content' => 'required',
             'id_category' => 'required'
         ]);
+
+        $data_berita = [
+            'title' => $request->title,
+            'content' => $request->content,
+            'id_category' => $request->id_category
+        ];
+
+        $data->update($data_berita);
 
         //upload image
         // $path = $request->file('image')->store('public/image');

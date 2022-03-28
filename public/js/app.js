@@ -5476,6 +5476,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5483,6 +5503,7 @@ __webpack_require__.r(__webpack_exports__);
       disabled: false,
       Beritas: {},
       Categorys: {},
+      statusModal: false,
       form: new Form({
         image: "",
         id: "",
@@ -5494,9 +5515,16 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    showModal: function showModal() {
+    showModalCreate: function showModalCreate() {
+      this.statusModal = false;
       this.form.reset();
       $("#modalCreate").modal("show");
+    },
+    showModalEdit: function showModalEdit(item) {
+      this.statusModal = true;
+      this.form.reset();
+      $("#modalCreate").modal("show");
+      this.form.fill(item);
     },
     loadData: function loadData() {
       var _this = this;
@@ -5537,6 +5565,31 @@ __webpack_require__.r(__webpack_exports__);
         _this2.disabled = false;
       });
     },
+    ubahData: function ubahData() {
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form.put("api/admin/berita/" + +this.form.id).then(function () {
+        Fire.$emit("refreshData");
+        $("#modalCreate").modal("hide");
+        Toast.fire({
+          icon: "success",
+          title: "Data Berhasil Diubah"
+        });
+
+        _this3.$Progress.finish();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      })["catch"](function () {
+        _this3.$Progress.fail();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      });
+    },
     FileSelected: function FileSelected(event) {
       var namaGambar = event.target.files[0].name;
       this.form.image = namaGambar;
@@ -5544,11 +5597,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadData();
     Fire.$on("refreshData", function () {
-      _this3.loadData();
+      _this4.loadData();
     });
   }
 });
@@ -5835,22 +5888,54 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       loading: false,
       disabled: false,
       Categorys: {},
+      statusModal: false,
       form: new Form({
         id: "",
-        kategori: ""
+        name: ""
       })
     };
   },
   methods: {
-    showModal: function showModal() {
+    showModalCreate: function showModalCreate() {
+      this.statusModal = false;
       this.form.reset();
       $("#modalCreate").modal("show");
+    },
+    showModalEdit: function showModalEdit(item) {
+      this.statusModal = true;
+      this.form.reset();
+      $("#modalCreate").modal("show");
+      this.form.fill(item);
     },
     loadData: function loadData() {
       var _this = this;
@@ -5886,14 +5971,39 @@ __webpack_require__.r(__webpack_exports__);
         _this2.loading = false;
         _this2.disabled = false;
       });
+    },
+    ubahData: function ubahData() {
+      var _this3 = this;
+
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form.put("api/admin/kategori/" + this.form.id).then(function () {
+        Fire.$emit("refreshData");
+        $("#modalCreate").modal("hide");
+        Toast.fire({
+          icon: "success",
+          title: "Data Berhasil Diubah"
+        });
+
+        _this3.$Progress.finish();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      })["catch"](function () {
+        _this3.$Progress.fail();
+
+        _this3.loading = false;
+        _this3.disabled = false;
+      });
     }
   },
   created: function created() {
-    var _this3 = this;
+    var _this4 = this;
 
     this.loadData();
     Fire.$on("refreshData", function () {
-      _this3.loadData();
+      _this4.loadData();
     });
   }
 });
@@ -33356,9 +33466,9 @@ var render = function () {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            staticClass: "btn btn-success",
             attrs: { href: "#" },
-            on: { click: _vm.showModal },
+            on: { click: _vm.showModalCreate },
           },
           [_vm._v("\n        Tambah Berita\n      ")]
         ),
@@ -33389,7 +33499,21 @@ var render = function () {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.status))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("Edit | Hapus")]),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.showModalEdit(item)
+                          },
+                        },
+                      },
+                      [_vm._v(" Edit ")]
+                    ),
+                    _vm._v("| Hapus\n            "),
+                  ]),
                 ]
               )
             }),
@@ -33413,16 +33537,58 @@ var render = function () {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.statusModal,
+                      expression: "!statusModal",
+                    },
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("\n            Tambah Berita\n          ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.statusModal,
+                      expression: "statusModal",
+                    },
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("\n            Ubah Berita\n          ")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: {
+                  type: "button",
+                  "data-bs-dismiss": "modal",
+                  "aria-label": "Close",
+                },
+              }),
+            ]),
             _vm._v(" "),
             _c(
               "form",
               {
-                attrs: { enctype: "multipart/form-data" },
                 on: {
                   submit: function ($event) {
                     $event.preventDefault()
-                    return _vm.simpanData()
+                    _vm.statusModal ? _vm.ubahData() : _vm.simpanData()
                   },
                 },
               },
@@ -33613,7 +33779,15 @@ var render = function () {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-primary",
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.statusModal,
+                          expression: "!statusModal",
+                        },
+                      ],
+                      staticClass: "btn btn-success",
                       attrs: { type: "submit", disabled: _vm.disabled },
                     },
                     [
@@ -33629,6 +33803,36 @@ var render = function () {
                         staticClass: "fa fa-spinner fa-spin",
                       }),
                       _vm._v(" Simpan\n            "),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.statusModal,
+                          expression: "statusModal",
+                        },
+                      ],
+                      staticClass: "btn btn-success",
+                      attrs: { type: "submit", disabled: _vm.disabled },
+                    },
+                    [
+                      _c("i", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.loading,
+                            expression: "loading",
+                          },
+                        ],
+                        staticClass: "fa fa-spinner fa-spin",
+                      }),
+                      _vm._v(" Ubah\n            "),
                     ]
                   ),
                 ]),
@@ -33710,27 +33914,6 @@ var staticRenderFns = [
           [_vm._v("\n              Action\n            ")]
         ),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
     ])
   },
 ]
@@ -33937,11 +34120,37 @@ var render = function () {
         _c(
           "button",
           {
-            staticClass: "btn btn-primary",
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.statusModal,
+                expression: "!statusModal",
+              },
+            ],
+            staticClass: "btn btn-success",
             attrs: { href: "#" },
-            on: { click: _vm.showModal },
+            on: { click: _vm.showModalCreate },
           },
           [_vm._v("\n        Tambah Kategori\n      ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.statusModal,
+                expression: "statusModal",
+              },
+            ],
+            staticClass: "btn btn-success",
+            attrs: { href: "#" },
+            on: { click: _vm.showModalCreate },
+          },
+          [_vm._v("\n        Ubah Kategori\n      ")]
         ),
       ]),
     ]),
@@ -33962,7 +34171,21 @@ var render = function () {
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(item.name))]),
                   _vm._v(" "),
-                  _c("td", [_vm._v("Edit | Hapus")]),
+                  _c("td", [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.showModalEdit(item)
+                          },
+                        },
+                      },
+                      [_vm._v("Edit")]
+                    ),
+                    _vm._v(" | Hapus"),
+                  ]),
                 ]
               )
             }),
@@ -33994,7 +34217,7 @@ var render = function () {
                 on: {
                   submit: function ($event) {
                     $event.preventDefault()
-                    return _vm.simpanData()
+                    _vm.statusModal ? _vm.ubahData() : _vm.simpanData()
                   },
                 },
               },
@@ -34016,16 +34239,16 @@ var render = function () {
                                 {
                                   name: "model",
                                   rawName: "v-model",
-                                  value: _vm.form.kategori,
-                                  expression: "form.kategori",
+                                  value: _vm.form.name,
+                                  expression: "form.name",
                                 },
                               ],
                               staticClass: "form-control",
                               class: {
-                                "is-invalid": _vm.form.errors.has("kategori"),
+                                "is-invalid": _vm.form.errors.has("name"),
                               },
                               attrs: { placeholder: "Nama Kategori" },
-                              domProps: { value: _vm.form.kategori },
+                              domProps: { value: _vm.form.name },
                               on: {
                                 input: function ($event) {
                                   if ($event.target.composing) {
@@ -34033,7 +34256,7 @@ var render = function () {
                                   }
                                   _vm.$set(
                                     _vm.form,
-                                    "kategori",
+                                    "name",
                                     $event.target.value
                                   )
                                 },
@@ -34041,7 +34264,7 @@ var render = function () {
                             }),
                             _vm._v(" "),
                             _c("has-error", {
-                              attrs: { form: _vm.form, field: "kategori" },
+                              attrs: { form: _vm.form, field: "name" },
                             }),
                           ],
                           1
@@ -34068,7 +34291,15 @@ var render = function () {
                   _c(
                     "button",
                     {
-                      staticClass: "btn btn-primary",
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.statusModal,
+                          expression: "!statusModal",
+                        },
+                      ],
+                      staticClass: "btn btn-success",
                       attrs: { type: "submit" },
                     },
                     [
@@ -34084,6 +34315,36 @@ var render = function () {
                         staticClass: "fa fa-spinner fa-spin",
                       }),
                       _vm._v("Simpan\n            "),
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.statusModal,
+                          expression: "statusModal",
+                        },
+                      ],
+                      staticClass: "btn btn-success",
+                      attrs: { type: "submit" },
+                    },
+                    [
+                      _c("i", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.loading,
+                            expression: "loading",
+                          },
+                        ],
+                        staticClass: "fa fa-spinner fa-spin",
+                      }),
+                      _vm._v("Ubah\n            "),
                     ]
                   ),
                 ]),

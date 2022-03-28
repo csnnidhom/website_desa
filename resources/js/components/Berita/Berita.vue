@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-2">
-        <button class="btn btn-primary" href="#" @click="showModal">
+        <button class="btn btn-success" href="#" @click="showModalCreate">
           Tambah Berita
         </button>
       </div>
@@ -96,7 +96,9 @@
               <td>{{ item.content }}</td>
               <td>{{ item.id_category }}</td>
               <td>{{ item.status }}</td>
-              <td>Edit | Hapus</td>
+              <td>
+                <a href="#" @click="showModalEdit(item)"> Edit </a>| Hapus
+              </td>
             </tr>
           </tbody>
         </table>
@@ -114,7 +116,16 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5
+              class="modal-title"
+              id="exampleModalLabel"
+              v-show="!statusModal"
+            >
+              Tambah Berita
+            </h5>
+            <h5 class="modal-title" id="exampleModalLabel" v-show="statusModal">
+              Ubah Berita
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -122,7 +133,7 @@
               aria-label="Close"
             ></button>
           </div>
-          <form @submit.prevent="simpanData()" enctype="multipart/form-data">
+          <form @submit.prevent="statusModal ? ubahData() : simpanData()">
             <div class="modal-body">
               <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -195,10 +206,19 @@
               </button>
               <button
                 type="submit"
-                class="btn btn-primary"
+                class="btn btn-success"
                 :disabled="disabled"
+                v-show="!statusModal"
               >
                 <i v-show="loading" class="fa fa-spinner fa-spin"></i> Simpan
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success"
+                :disabled="disabled"
+                v-show="statusModal"
+              >
+                <i v-show="loading" class="fa fa-spinner fa-spin"></i> Ubah
               </button>
             </div>
           </form>
@@ -216,6 +236,7 @@ export default {
       disabled: false,
       Beritas: {},
       Categorys: {},
+      statusModal: false,
       form: new Form({
         image: "",
         id: "",
@@ -227,9 +248,16 @@ export default {
     };
   },
   methods: {
-    showModal() {
+    showModalCreate() {
+      this.statusModal = false;
       this.form.reset();
       $("#modalCreate").modal("show");
+    },
+    showModalEdit(item) {
+      this.statusModal = true;
+      this.form.reset();
+      $("#modalCreate").modal("show");
+      this.form.fill(item);
     },
     loadData() {
       this.$Progress.start();
@@ -251,6 +279,29 @@ export default {
           Toast.fire({
             icon: "success",
             title: "Data Berhasil Disimpan",
+          });
+          this.$Progress.finish();
+          this.loading = false;
+          this.disabled = false;
+        })
+        .catch(() => {
+          this.$Progress.fail();
+          this.loading = false;
+          this.disabled = false;
+        });
+    },
+    ubahData() {
+      this.$Progress.start();
+      this.loading = true;
+      this.disabled = true;
+      this.form
+        .put("api/admin/berita/" + +this.form.id)
+        .then(() => {
+          Fire.$emit("refreshData");
+          $("#modalCreate").modal("hide");
+          Toast.fire({
+            icon: "success",
+            title: "Data Berhasil Diubah",
           });
           this.$Progress.finish();
           this.loading = false;
