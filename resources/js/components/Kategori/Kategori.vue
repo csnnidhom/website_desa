@@ -1,22 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-2">
-        <button
-          class="btn btn-success"
-          href="#"
-          v-show="!statusModal"
-          @click="showModalCreate"
-        >
+      <div class="col-3">
+        <button class="btn btn-success" href="#" @click="showModalCreate">
           Tambah Kategori
-        </button>
-        <button
-          class="btn btn-success"
-          href="#"
-          @click="showModalCreate"
-          v-show="statusModal"
-        >
-          Ubah Kategori
         </button>
       </div>
     </div>
@@ -65,7 +52,15 @@
             >
               <td>{{ ++index }}</td>
               <td>{{ item.name }}</td>
-              <td><a href="#" @click="showModalEdit(item)">Edit</a> | Hapus</td>
+              <td>
+                <a href="#" @click="showModalEdit(item)"
+                  ><i class="fas fa-edit blue"></i
+                ></a>
+                |
+                <a href="#" @click="deleteData(item.id)"
+                  ><i class="fas fa-trash-alt"></i
+                ></a>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -83,7 +78,16 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5
+              class="modal-title"
+              id="exampleModalLabel"
+              v-show="!statusModal"
+            >
+              Tambah Kategori
+            </h5>
+            <h5 class="modal-title" id="exampleModalLabel" v-show="statusModal">
+              Ubah Kategori
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -217,6 +221,28 @@ export default {
           this.loading = false;
           this.disabled = false;
         });
+    },
+    deleteData(id) {
+      Swal.fire({
+        title: "Anda Yakin Ingin Menghapus Data ini ?",
+        icon: "warning",
+        showCancelButton: "true",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        ConfirmButtonText: "Hapus",
+      }).then((result) => {
+        if (result.value) {
+          this.form
+            .delete("api/admin/kategori/" + id)
+            .then(() => {
+              Swal.fire("Terhapus", "Data Anda Sudah Terhapus", "success");
+              Fire.$emit("refreshData");
+            })
+            .catch(() => {
+              Swal.fire("Gagal", "Data Gagal Terhapus", "warning");
+            });
+        }
+      });
     },
   },
 

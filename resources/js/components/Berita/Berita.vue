@@ -97,7 +97,13 @@
               <td>{{ item.id_category }}</td>
               <td>{{ item.status }}</td>
               <td>
-                <a href="#" @click="showModalEdit(item)"> Edit </a>| Hapus
+                <a href="#" @click="showModalEdit(item)"
+                  ><i class="fas fa-edit red"></i
+                ></a>
+                |
+                <a href="#" @click="deleteData(item.id)"
+                  ><i class="fas fa-trash-alt" style="color: #ec1919"></i
+                ></a>
               </td>
             </tr>
           </tbody>
@@ -312,6 +318,28 @@ export default {
           this.loading = false;
           this.disabled = false;
         });
+    },
+    deleteData(id) {
+      Swal.fire({
+        title: "Anda Yakin Ingin Menghapus Data ini ?",
+        icon: "warning",
+        showCancelButton: "true",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        ConfirmButtonText: "Hapus",
+      }).then((result) => {
+        if (result.value) {
+          this.form
+            .delete("api/admin/berita/" + id)
+            .then(() => {
+              Swal.fire("Terhapus", "Data Anda Sudah Terhapus", "success");
+              Fire.$emit("refreshData");
+            })
+            .catch(() => {
+              Swal.fire("Gagal", "Data Gagal Terhapus", "warning");
+            });
+        }
+      });
     },
     FileSelected: function (event) {
       const namaGambar = event.target.files[0].name;

@@ -5496,6 +5496,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5590,6 +5596,27 @@ __webpack_require__.r(__webpack_exports__);
         _this3.disabled = false;
       });
     },
+    deleteData: function deleteData(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: "Anda Yakin Ingin Menghapus Data ini ?",
+        icon: "warning",
+        showCancelButton: "true",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        ConfirmButtonText: "Hapus"
+      }).then(function (result) {
+        if (result.value) {
+          _this4.form["delete"]("api/admin/berita/" + id).then(function () {
+            Swal.fire("Terhapus", "Data Anda Sudah Terhapus", "success");
+            Fire.$emit("refreshData");
+          })["catch"](function () {
+            Swal.fire("Gagal", "Data Gagal Terhapus", "warning");
+          });
+        }
+      });
+    },
     FileSelected: function FileSelected(event) {
       var namaGambar = event.target.files[0].name;
       this.form.image = namaGambar;
@@ -5597,11 +5624,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadData();
     Fire.$on("refreshData", function () {
-      _this4.loadData();
+      _this5.loadData();
     });
   }
 });
@@ -5912,6 +5939,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -5996,14 +6027,35 @@ __webpack_require__.r(__webpack_exports__);
         _this3.loading = false;
         _this3.disabled = false;
       });
+    },
+    deleteData: function deleteData(id) {
+      var _this4 = this;
+
+      Swal.fire({
+        title: "Anda Yakin Ingin Menghapus Data ini ?",
+        icon: "warning",
+        showCancelButton: "true",
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        ConfirmButtonText: "Hapus"
+      }).then(function (result) {
+        if (result.value) {
+          _this4.form["delete"]("api/admin/kategori/" + id).then(function () {
+            Swal.fire("Terhapus", "Data Anda Sudah Terhapus", "success");
+            Fire.$emit("refreshData");
+          })["catch"](function () {
+            Swal.fire("Gagal", "Data Gagal Terhapus", "warning");
+          });
+        }
+      });
     }
   },
   created: function created() {
-    var _this4 = this;
+    var _this5 = this;
 
     this.loadData();
     Fire.$on("refreshData", function () {
-      _this4.loadData();
+      _this5.loadData();
     });
   }
 });
@@ -33510,9 +33562,26 @@ var render = function () {
                           },
                         },
                       },
-                      [_vm._v(" Edit ")]
+                      [_c("i", { staticClass: "fas fa-edit red" })]
                     ),
-                    _vm._v("| Hapus\n            "),
+                    _vm._v("\n              |\n              "),
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteData(item.id)
+                          },
+                        },
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "fas fa-trash-alt",
+                          staticStyle: { color: "#ec1919" },
+                        }),
+                      ]
+                    ),
                   ]),
                 ]
               )
@@ -34116,41 +34185,15 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-2" }, [
+      _c("div", { staticClass: "col-3" }, [
         _c(
           "button",
           {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: !_vm.statusModal,
-                expression: "!statusModal",
-              },
-            ],
             staticClass: "btn btn-success",
             attrs: { href: "#" },
             on: { click: _vm.showModalCreate },
           },
           [_vm._v("\n        Tambah Kategori\n      ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.statusModal,
-                expression: "statusModal",
-              },
-            ],
-            staticClass: "btn btn-success",
-            attrs: { href: "#" },
-            on: { click: _vm.showModalCreate },
-          },
-          [_vm._v("\n        Ubah Kategori\n      ")]
         ),
       ]),
     ]),
@@ -34182,9 +34225,21 @@ var render = function () {
                           },
                         },
                       },
-                      [_vm._v("Edit")]
+                      [_c("i", { staticClass: "fas fa-edit blue" })]
                     ),
-                    _vm._v(" | Hapus"),
+                    _vm._v("\n              |\n              "),
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.deleteData(item.id)
+                          },
+                        },
+                      },
+                      [_c("i", { staticClass: "fas fa-trash-alt" })]
+                    ),
                   ]),
                 ]
               )
@@ -34209,7 +34264,50 @@ var render = function () {
       [
         _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "modal-header" }, [
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.statusModal,
+                      expression: "!statusModal",
+                    },
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("\n            Tambah Kategori\n          ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "h5",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.statusModal,
+                      expression: "statusModal",
+                    },
+                  ],
+                  staticClass: "modal-title",
+                  attrs: { id: "exampleModalLabel" },
+                },
+                [_vm._v("\n            Ubah Kategori\n          ")]
+              ),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "btn-close",
+                attrs: {
+                  type: "button",
+                  "data-bs-dismiss": "modal",
+                  "aria-label": "Close",
+                },
+              }),
+            ]),
             _vm._v(" "),
             _c(
               "form",
@@ -34390,27 +34488,6 @@ var staticRenderFns = [
           [_vm._v("\n              Action\n            ")]
         ),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Modal title")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
     ])
   },
 ]

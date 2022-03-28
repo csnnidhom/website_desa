@@ -96,14 +96,6 @@ class BeritaController extends Controller
             'id_category' => 'required'
         ]);
 
-        $data_berita = [
-            'title' => $request->title,
-            'content' => $request->content,
-            'id_category' => $request->id_category
-        ];
-
-        $data->update($data_berita);
-
         //upload image
         // $path = $request->file('image')->store('public/image');
 

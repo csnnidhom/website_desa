@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -76,15 +78,27 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
         $data = Category::find($id);
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required'
         ]);
 
-        $name_category = [
-            'name' => $request->name
-        ];
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-        $data->update($name_category);
+        try {
+            $data->update($request->all());
+            $response = [
+                'message' => 'Berhasil Merubah',
+                'data' => $data
+            ];
+
+            return response()->json($response, 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Gagal Merubah' . $e->errorInfo
+            ]);
+        }
     }
 
     /**
@@ -95,6 +109,17 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Category::find($id);
+        try {
+            $data->delete();
+            $response = [
+                'message' => 'Berhasil Menghapus',
+            ];
+            return response()->json($response, 200);
+        } catch (QueryException $e) {
+            return response()->json([
+                'message' => 'Gagal Menghapus' . $e->errorInfo
+            ]);
+        }
     }
 }
