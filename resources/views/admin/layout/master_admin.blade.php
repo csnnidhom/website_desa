@@ -234,7 +234,7 @@
     <script src="{{ asset('admin_template/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{mix('js/app.js')}}"></script>
 </body>
 
 

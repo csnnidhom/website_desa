@@ -3,8 +3,11 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BeritaController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\CobaImage;
+
 use App\Http\Controllers\API\ImageController;
 use App\Http\Controllers\API\VideoController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,10 +34,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 //vue
 Route::resource('admin/berita', BeritaController::class);
 Route::resource('admin/kategori', CategoryController::class);
-// Route::resource('admin/image', ImageController::class);
+Route::resource('admin/image', ImageController::class);
 // Route::resource('admin/video', VideoController::class);
-
-//vue resource
-// Route::apiResource([
-//     'admin/berita' => BeritaController::class,
-// ]);

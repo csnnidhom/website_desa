@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-2">
+      <div class="col-3">
         <button class="btn btn-success" href="#" @click="showModalCreate">
-          Tambah Berita
+          Tambah Gambar
         </button>
       </div>
     </div>
@@ -30,16 +30,6 @@
                   ps-2
                 "
               >
-                Image
-              </th>
-              <th
-                class="
-                  text-uppercase text-secondary text-xxs
-                  font-weight-bolder
-                  opacity-7
-                  ps-2
-                "
-              >
                 Title
               </th>
               <th
@@ -50,7 +40,7 @@
                   ps-2
                 "
               >
-                Content
+                Image
               </th>
               <th
                 class="
@@ -60,17 +50,7 @@
                   ps-2
                 "
               >
-                Category
-              </th>
-              <th
-                class="
-                  text-uppercase text-secondary text-xxs
-                  font-weight-bolder
-                  opacity-7
-                  ps-2
-                "
-              >
-                Status
+                Nama Kategori
               </th>
               <th
                 class="
@@ -87,22 +67,26 @@
           <tbody>
             <tr
               class="text-center align-middle"
-              v-for="(item, index) in Beritas"
+              v-for="(item, index) in Images"
               :key="item.id"
             >
               <td>{{ ++index }}</td>
-              <td>{{ item.image }}</td>
               <td>{{ item.title }}</td>
-              <td>{{ item.content }}</td>
+              <td>
+                <img
+                  :src="'storage/' + item.image"
+                  class="rounded"
+                  style="width: 100px"
+                />
+              </td>
               <td>{{ item.id_category }}</td>
-              <td>{{ item.status }}</td>
               <td>
                 <a href="#" @click="showModalEdit(item)"
-                  ><i class="fas fa-edit red"></i
+                  ><i class="fas fa-edit"></i
                 ></a>
                 |
                 <a href="#" @click="deleteData(item.id)"
-                  ><i class="fas fa-trash-alt" style="color: #ec1919"></i
+                  ><i class="fas fa-trash-alt"></i
                 ></a>
               </td>
             </tr>
@@ -111,7 +95,7 @@
       </div>
     </div>
 
-    <!-- Modal Create -->
+    <!-- Modal -->
     <div
       class="modal fade"
       id="modalCreate"
@@ -127,10 +111,10 @@
               id="exampleModalLabel"
               v-show="!statusModal"
             >
-              Tambah Berita
+              Tambah Gambar
             </h5>
             <h5 class="modal-title" id="exampleModalLabel" v-show="statusModal">
-              Ubah Berita
+              Ubah Gambar
             </h5>
             <button
               type="button"
@@ -139,7 +123,10 @@
               aria-label="Close"
             ></button>
           </div>
-          <form @submit.prevent="statusModal ? ubahData() : simpanData()">
+          <form
+            @submit.prevent="statusModal ? ubahData() : simpanData()"
+            enctype="multipart/form-data"
+          >
             <div class="modal-body">
               <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -155,32 +142,24 @@
                     <has-error :form="form" field="title"></has-error>
                   </div>
                   <div class="form-group">
-                    <strong>Content :</strong>
-                    <textarea
-                      class="form-control"
-                      style="height: 150px"
-                      placeholder="Content"
-                      v-model="form.content"
-                      :class="{ 'is-invalid': form.errors.has('content') }"
-                    ></textarea>
-                    <has-error :form="form" field="content"></has-error>
-                  </div>
-                  <!-- <div class="form-group">
-                    <strong>Image :</strong>
-                    <p>
-                      <img
-                        :src="previewImage"
-                        v-if="previewImage"
-                        width="150"
+                    <div class="form-group">
+                      <strong>Image :</strong>
+                      <p>
+                        <img
+                          :src="previewImage"
+                          v-if="previewImage"
+                          width="150"
+                        />
+                      </p>
+                      <input
+                        type="file"
+                        class="form-control"
+                        v-on:change="FileSelected"
+                        :class="{ 'is-invalid': form.errors.has('image') }"
                       />
-                    </p>
-                    <input
-                      type="file"
-                      class="form-control"
-                      v-on:change="FileSelected"
-                    />
-                  </div> -->
-
+                      <has-error :form="form" field="image"></has-error>
+                    </div>
+                  </div>
                   <div class="form-group">
                     <strong>Category:</strong>
                     <select
@@ -216,7 +195,7 @@
                 :disabled="disabled"
                 v-show="!statusModal"
               >
-                <i v-show="loading" class="fa fa-spinner fa-spin"></i> Simpan
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i> Simpan
               </button>
               <button
                 type="submit"
@@ -224,7 +203,7 @@
                 :disabled="disabled"
                 v-show="statusModal"
               >
-                <i v-show="loading" class="fa fa-spinner fa-spin"></i> Ubah
+                <i class="fa fa-spinner fa-spin" v-show="loading"></i> Ubah
               </button>
             </div>
           </form>
@@ -240,17 +219,16 @@ export default {
     return {
       loading: false,
       disabled: false,
-      Beritas: {},
-      Categorys: {},
       statusModal: false,
+      Categorys: {},
+      Images: {},
+      previewImage: "",
       form: new Form({
-        image: "",
         id: "",
         title: "",
-        content: "",
+        image: "",
         id_category: "",
       }),
-      previewImage: "",
     };
   },
   methods: {
@@ -266,19 +244,22 @@ export default {
       this.form.fill(item);
     },
     loadData() {
-      this.$Progress.start();
-      axios.get("api/admin/berita").then(({ data }) => (this.Beritas = data));
+      axios.get("api/admin/image").then(({ data }) => (this.Images = data));
       axios
         .get("api/admin/kategori")
         .then(({ data }) => (this.Categorys = data));
-      this.$Progress.finish();
+    },
+    FileSelected: function (event) {
+      const namaGambar = event.target.files[0];
+      this.form.image = namaGambar;
+      this.previewImage = URL.createObjectURL(event.target.files[0]);
     },
     simpanData() {
       this.$Progress.start();
       this.loading = true;
       this.disabled = true;
       this.form
-        .post("api/admin/berita")
+        .post("api/admin/image")
         .then(() => {
           Fire.$emit("refreshData");
           $("#modalCreate").modal("hide");
@@ -301,7 +282,7 @@ export default {
       this.loading = true;
       this.disabled = true;
       this.form
-        .put("api/admin/berita/" + +this.form.id)
+        .put("api/admin/image/" + this.form.id)
         .then(() => {
           Fire.$emit("refreshData");
           $("#modalCreate").modal("hide");
@@ -330,7 +311,7 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.form
-            .delete("api/admin/berita/" + id)
+            .delete("api/admin/image/" + id)
             .then(() => {
               Swal.fire("Terhapus", "Data Anda Sudah Terhapus", "success");
               Fire.$emit("refreshData");
@@ -340,11 +321,6 @@ export default {
             });
         }
       });
-    },
-    FileSelected: function (event) {
-      const namaGambar = event.target.files[0].name;
-      this.form.image = namaGambar;
-      this.previewImage = URL.createObjectURL(event.target.files[0]);
     },
   },
   created() {

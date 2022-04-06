@@ -41,16 +41,21 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
+            'image' => 'required',
             'title' => 'required',
             'content' => 'required',
             'id_category' => 'required'
         ]);
-        return Berita::create([
-            // 'image' => $path,
+        $data = Berita::create([
+            'image' => $request->image,
             'title' => $request->title,
             'content' => $request->content,
             'id_category' => $request->id_category
         ]);
+        return response()->json([
+            'message' => "Data Berhasil Ditambahkan",
+            'data' => $data
+        ], 200);
     }
 
     /**
@@ -90,7 +95,7 @@ class BeritaController extends Controller
     {
         $data = Berita::find($id);
         $validator = Validator::make($request->all(), [
-            // 'image' => 'required',
+            'image' => 'required',
             'title' => 'required',
             'content' => 'required',
             'id_category' => 'required'

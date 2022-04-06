@@ -35,8 +35,9 @@ class AuthController extends Controller
     {
         $user = $request->user();
         $user->currentAccessToken()->delete();
-        return response()->json([
-            'message' => 'Berhasil Logout'
-        ], 200);
+        // return response()->json([
+        //     'message' => 'Berhasil Logout'
+        // ], 200);
+        return redirect('/admin/login');
     }
 }
