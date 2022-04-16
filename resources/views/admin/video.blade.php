@@ -15,67 +15,51 @@
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
 
-<div class="col-lg-12 margin-tb">
-    <div class="pull-right mb-2">
-        <div class="row justify-content-between">
-            <div class="col-4">
-                <a class="btn bg-gradient-success btn-block mb-3" href="#" data-bs-toggle="modal" data-bs-target="#createVideo"> Create New Post</a>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="card">
-    <div class="table table-responsive">
-        <table class="table table-hover">
-            <thead class="text-center">
-                <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">No</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Video</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-                </tr>
-            </thead>
-            @php $no=1; @endphp
-            @foreach ($data as $item)
-            <tbody>
-                <tr class="text-center align-middle">
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $no++ }}</span>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $item->title }}</span>
-                        </span>
-                    </td>
-                    <td class="text-center"><video src="{{ Storage::url($item->video) }}" class="rounded" style="width: 150px"></td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $item->category['name']}}</span>
-                        </span>
-                    </td>
-                    <td>
-                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editVideo{{ $item->id }}" href="#">
-                            <i class="fas fa-pencil-alt"> Edit</i>
-                        </a>
-                        <form action="{{ route('video.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
-                                <i class="far fa-trash-alt">Delete</i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-            @endforeach
-        </table>
+    <div class="card-body">
+        <div class="table table-responsive table-hover">
+            <div class="row justify-content-start">
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createVideo">
+                        Create New Post
+                    </button>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead class="text-center">
+                    <tr>
+                        <th>No</th>
+                        <th>Title</th>
+                        <th>Video</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @php $no=1; @endphp
+                @foreach ($data as $item)
+                <tbody>
+                    <tr class="text-center">
+                        <td class="align-middle">{{ $no++ }}</td>
+                        <td class="align-middle">{{ $item->title }}</td>
+                        <td class="text-center"><video src="{{ Storage::url($item->video) }}" class="rounded" style="width: 150px"></td>
+                        <td class="align-middle">{{ $item->category['name']}} </td>
+                        <td class="align-middle">
+                            <a class="btn btn-link text-dark px-3 mb-0" data-toggle="modal" data-target="#editVideo{{ $item->id }}" href="#">
+                                <i class="fas fa-pencil-alt"> Edit</i>
+                            </a>
+                            <form action="{{ route('video.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                    <i class="far fa-trash-alt">Delete</i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+                @endforeach
+            </table>
+        </div>
     </div>
 </div>
 
@@ -87,13 +71,15 @@
 @foreach ($data as $item)
 <div class="modal fade" id="createVideo" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog">
-        <div class="modal-content bg-light">
+        <div class="modal-content">
             <div class="modal-header ">
                 <h5 class="modal-title ">Create</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('video.store') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
                     @csrf
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -122,14 +108,14 @@
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -144,10 +130,12 @@
         <div class="modal-content bg-light">
             <div class="modal-header">
                 <h5 class="modal-title">Edit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('video.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('video.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -167,22 +155,22 @@
                                 <strong>Category:</strong>
                                 <select name="name_category" class="form-control">
                                     <option value="">- Pilih -</option>
-                                    @foreach ($name_category as $item)
-                                    <option value="{{ $item->id }}" {{old ('name_category') == $item->id ? 'selected' : null}}>{{ $item->name }}</option>
+                                    @foreach ($name_category as $item_edit)
+                                    <option value="{{ $item_edit->id }}" {{$item_edit->id == $item->category['id']? 'selected' : null}}>{{ $item_edit->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('name_category')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

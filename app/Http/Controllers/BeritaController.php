@@ -15,12 +15,31 @@ class BeritaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = Berita::all();
-        $name_category = Category::all();
+        $data = Berita::with(['category'])->orderBy('id_category');
         $title = 'Berita';
-        return view('admin/berita', compact('data', 'name_category', 'title'));
+
+        if ($request->get('category')) {
+            $category = $request->category;
+            $data->whereHas(
+                'category',
+                function ($query) use ($category) {
+                    $query->where('name', 'LIKE', "%{$category}%");
+                }
+            );
+        } else {
+        }
+
+        if ($request->get('keyword')) {
+            $data->search($request->keyword);
+        }
+
+        return view('admin/berita', [
+            'data' => $data->paginate(5)->withQueryString(),
+            'name_category' => Category::all(),
+            'title' => $title
+        ]);
     }
 
     /**
@@ -42,8 +61,10 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:1000',
+            'content' => 'required',
+            'title' => 'required',
             'name_category' => 'required',
-            'image' => 'required|image|mimes:png,jpg,jpeg'
         ]);
 
         //upload image
@@ -91,13 +112,15 @@ class BeritaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'content' => 'required',
+            'title' => 'required',
             'name_category' => 'required',
         ]);
 
         $berita = Berita::find($id);
         if ($request->image) {
             $request->validate([
-                'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+                'image' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:1000',
             ]);
             $path = $request->file('image')->store('public/update_images');
             $berita->image = $path;

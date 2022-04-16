@@ -18,9 +18,14 @@ class CreateBeritasTable extends Migration
             $table->string('image');
             $table->string('title');
             $table->text('content');
-            $table->foreignId('id_category')->constrained('category')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('id_category');
             $table->integer('status')->default('0');
             $table->timestamps();
+
+            $table->foreign('id_category')
+                ->references('id')
+                ->on('category')
+                ->onDelete('cascade');
         });
     }
 

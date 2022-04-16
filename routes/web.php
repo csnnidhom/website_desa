@@ -29,24 +29,23 @@ use App\Http\Controllers\VueController;
 Route::get('/admin/login', [LoginController::class, 'login'])->name('login');
 Route::post('/postLogin', [LoginController::class, 'postLogin'])->name('postLogin');
 
-// Route::group(['middleware' => ['auth']], function () {
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-//     Route::get('/admin', [DashboardController::class, 'index']);
-//     Route::get('/admin/dashboard', [DashboardController::class, 'index']);
-//     Route::resource('/admin/berita', BeritaController::class);
-//     Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
-//     Route::resource('/admin/kategori', CategoryController::class);
-//     Route::resource('/admin/image', ImageController::class);
-//     Route::resource('/admin/video', VideoController::class);
-// });
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index']);
+    Route::resource('/admin/berita', BeritaController::class);
+    Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
+    Route::resource('/admin/kategori', CategoryController::class);
+    Route::resource('/admin/image', ImageController::class);
+    Route::resource('/admin/video', VideoController::class);
+});
 
 
 //user
-// Route::get('/', [UserController::class, 'home']);
-// Route::get('/home', [UserController::class, 'home']);
-// Route::get('/sejarah_desa', [UserController::class, 'sejarah_desa']);
-// Route::get('/berita', [BeritaController::class, 'tampil_berita']);
-// Route::get('/berita_detail/{id}', [BeritaController::class, 'detail_berita']);
+Route::get('/', [UserController::class, 'home']);
+Route::get('/home', [UserController::class, 'home']);
+Route::get('/sejarah_desa', [UserController::class, 'sejarah_desa']);
+Route::get('/berita', [BeritaController::class, 'tampil_berita']);
+Route::get('/berita_detail/{id}', [BeritaController::class, 'detail_berita']);
 
 //vue
-Route::get('/{any}', [VueController::class, 'index'])->where('any', '.*');
+// Route::get('/{any}', [VueController::class, 'index'])->where('any', '.*');

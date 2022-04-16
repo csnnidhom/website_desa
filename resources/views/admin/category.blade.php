@@ -8,58 +8,48 @@
 </div>
 @endif
 
-<div class="col-lg-12 margin-tb">
-    <div class="pull-right mb-2">
-        <div class="row justify-content-between">
-            <div class="col-4">
-                <a class="btn bg-gradient-success btn-block mb-3" href="#" data-bs-toggle="modal" data-bs-target="#createCategory"> Create New Post</a>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="card">
-    <div class="table table-responsive">
-        <table class="table table-hover">
-            <thead class="text-center">
-                <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">No</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">Name</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">Action</th>
-                    <th></th>
-                </tr>
-            </thead>
-            @php $no=1; @endphp
-            @forelse ($data as $item)
-            <tbody>
-                <tr class="text-center align-middle">
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $no++ }}</span>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $item->name }}</span>
-                        </span>
-                    </td>
-                    <td>
-                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editCategory{{ $item->id }}" href="#">
-                            <i class="fas fa-pencil-alt"> Edit</i>
-                        </a>
-                        <form action="{{ route('kategori.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
-                                <i class="far fa-trash-alt">Delete</i>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-            @endforeach
-        </table>
+    <div class="card-body">
+        <div class="table table-hover">
+            <div class="row justify-content-start">
+                <div class="col-2">
+                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createCategory">
+                        Create New Post
+                    </button>
+                </div>
+            </div>
+
+            <table class="table table-bordered">
+                <thead class="text-center">
+                    <tr>
+                        <th width="150px">No</th>
+                        <th>Name</th>
+                        <th width="250px">Action</th>
+                    </tr>
+                </thead>
+                @php $no=1; @endphp
+                @forelse ($data as $item)
+                <tbody>
+                    <tr class="text-center align-middle">
+                        <td class="align-middle">{{ $no++ }}</td>
+                        <td class="align-middle">{{ $item->name }}</td>
+                        <td>
+                            <a class="btn btn-link text-dark px-3 mb-0" data-toggle="modal" data-target="#editCategory{{ $item->id }}" href="#">
+                                <i class="fas fa-pencil-alt"> Edit</i>
+                            </a>
+                            <form action="{{ route('kategori.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                    <i class="far fa-trash-alt">Delete</i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+                @endforeach
+            </table>
+        </div>
     </div>
 </div>
 @endsection
@@ -68,15 +58,17 @@
 
 <!-- Modal Create Berita -->
 @foreach ($data as $item)
-<div class="modal fade" id="createCategory" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content bg-light">
-            <div class="modal-header ">
+<div class="modal fade" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
                 <h5 class="modal-title ">Create Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kategori.store') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
                     @csrf
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -84,14 +76,14 @@
                                 <strong>Name Category:</strong>
                                 <input class="form-control" name="name" placeholder="Name Category" required></input>
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -106,10 +98,12 @@
         <div class="modal-content bg-light">
             <div class="modal-header">
                 <h5 class="modal-title">Edit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('kategori.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('kategori.update', $item->id) }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
                     @csrf
                     @method('PUT')
                     <div class="row">
@@ -118,15 +112,15 @@
                                 <strong>Name Category:</strong>
                                 <input class="form-control" name="name" placeholder="Name Category" value="{{ $item->name }}" required>
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
 
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

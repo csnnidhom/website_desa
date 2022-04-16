@@ -17,4 +17,14 @@ class Berita extends Model
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function scopeSearch($query, $title)
+    {
+        return $query->where('title', 'LIKE', "%{$title}%");
+    }
+
+    // public function getProfilePictureAttribute($value)
+    // {
+    //     return url("public/image" . $value);
+    // }
 }

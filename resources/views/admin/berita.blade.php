@@ -11,89 +11,110 @@
 @error('name_category')
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
-<div class="col-lg-12 margin-tb">
-    <div class="pull-right mb-2">
-        <div class="row justify-content-between">
-            <div class="col-4">
-                <a class="btn bg-gradient-success btn-block mb-3" href="#" data-bs-toggle="modal" data-bs-target="#createBerita"> Create New Post</a>
+
+@error('image')
+<div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+@enderror
+
+<div class="card">
+    <div class="card-body">
+        <div class="">
+            <form class="row" method="GET">
+                <div class="col-md-5">
+                    <button type="button" class="btn btn-primary mb-3" href="#" data-toggle="modal" data-target="#createBerita">
+                        Create New Post
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <select name="category" class="form-control">
+                        <option value="" selected>All</option>
+                        @foreach ($name_category as $item)
+                        <option value="{{ $item->name }}" {{ request('category') === $item->name ? 'selected' : null }}>
+                            {{ $item->name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <input class="form-control border-end-0 border" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="Search Name">
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary bg-white border" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-bordered ">
+                <thead class="text-center">
+                    <tr>
+                        <th>No</th>
+                        <th>Ubah Status</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th style="width:25%">Content</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @php $no=1; @endphp
+                @forelse ($data as $item)
+                <tbody class="text-center ">
+                    <tr>
+                        <td class="align-middle">{{ $no++ }}</td>
+                        <td class="align-middle">
+                            @if ($item->status == 1)
+                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-danger">Non-Aktifkan</a>
+                            @else
+                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-success">Aktifkan</a>
+                            @endif
+                        </td>
+                        <td class="align-middle"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 75px">
+                        </td>
+                        <td class="align-middle"> {{ $item->title }}</td>
+                        <td class="align-middle">{!! $item->content !!}</td>
+                        <td class="align-middle">{{ $item->category['name']}}</td>
+                        <td class="align-middle">
+
+                            <span class="badge {{ ($item->status == 1 ? 'btn-success' : 'btn-danger') }}">
+                                {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
+
+                        </td>
+                        <td class="align-middle">
+                            <a class="btn btn-link text-primary px-3 mb-0" data-toggle="modal" data-target="#editBerita{{ $item->id }}" href="#">
+                                <i class="fas fa-pencil-alt"> Edit</i>
+                            </a>
+                            <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                                @method('DELETE')
+                                @csrf
+                                <button class="btn btn-link text-danger px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                    <i class="fas fa-trash-alt"> Delete</i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+                @empty
+                <tr>
+                    <td colspan="100%" class="text-center">
+                        Data not found
+                    </td>
+                </tr>
+                @endforelse
+            </table>
+            @if ($data->hasPages())
+            <div class="row">
+                <div class="col mt-4">
+                    {{ $data->links('pagination::bootstrap-4') }}
+                </div>
             </div>
+            @endif
         </div>
     </div>
 </div>
 
-<div class="card">
-    <div class="table table-responsive">
-        <table class="table table-hover ">
-            <thead class="text-center">
-                <tr>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">No</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2 ">Image</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Title</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Content</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Category</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Action</th>
-                    <th></th>
-                </tr>
-            </thead>
-            @php $no=1; @endphp
-            @forelse ($data as $item)
-            <tbody>
-                <tr class="text-center align-middle">
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $no++ }}</span>
-                        </span>
-                    </td>
-                    <td class="text-center"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 100px">
-                    </td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $item->title }}</span>
-                        </span>
-                    </td>
-                    <td>
-                        {!! $item->content !!}
-                    </td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="text-dark text-xs">{{ $item->category['name']}}</span>
-                        </span>
-                    </td>
-                    <td>
-                        <span class="badge badge-dot me-4 ">
-                            <i class="bg-info "></i>
-                            <span class="badge {{ ($item->status == 1 ? 'bg-gradient-success' : 'bg-gradient-danger') }}">
-                                {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
-                            </span>
-                        </span>
-                    </td>
-                    <td>
-                        <a class="btn btn-link text-dark px-3 mb-0" data-bs-toggle="modal" data-bs-target="#editBerita{{ $item->id }}" href="#">
-                            <i class="fas fa-pencil-alt"> Edit</i>
-                        </a>
-                        <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
-                                <i class="far fa-trash-alt">Delete</i>
-                            </button>
-                        </form><br>
-                        @if ($item->status == 1)
-                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge bg-gradient-danger">Non-Aktifkan</a>
-                        @else
-                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge bg-gradient-success">Aktifkan</a>
-                        @endif
-                    </td>
-                </tr>
-            </tbody>
-            @endforeach
-        </table>
-    </div>
-</div>
 @endsection
 
 @section('modal')
@@ -101,14 +122,16 @@
 <!-- Modal Create Berita -->
 @foreach ($data as $item)
 <div class="modal fade" id="createBerita" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-light">
-            <div class="modal-header ">
-                <h5 class="modal-title ">Create</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
                     @csrf
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -120,9 +143,13 @@
                                 <strong>Content :</strong>
                                 <textarea class="my-editor form-control" style="height:150px" name="content" placeholder="Content" required>{{ old('content') }}</textarea>
                             </div>
-                            <div class="form-group">
+                            <div>
                                 <strong>Image :</strong>
-                                <input type="file" name="image" class="form-control" required>
+                                <input type="file" id="image-create" name="image" class="form-control" onchange="previewImageCreate()" required>
+                                <img class="img-preview-create img-fluid mb-3 mt-3 col-sm-3">
+                                @error('image')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <strong>Category:</strong>
@@ -137,29 +164,29 @@
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 @endforeach
 
-@endsection
-
 <!-- Modal Edit Berita-->
 @foreach ($data as $item)
-<div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" tabindex="-1" aria-hidden="true" data-backdrop="static">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content bg-light">
+<div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
             <div class="modal-header">
                 <h5 class="modal-title">Edit</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form action="{{ route('berita.update', $item->id) }}" method="POST" enctype="multipart/form-data">
@@ -175,31 +202,42 @@
                                 <strong>Content :</strong>
                                 <textarea class="my-editor form-control" style="height:150px" name="content" required>{{ $item->content }}</textarea>
                             </div>
-                            <div class="form-group">
+                            <div>
                                 <strong>Image :</strong>
-                                <input class="form-control" type="file" name="image" value="{{ $item->image }}" required>
+                                <input type="file" id="image-update" name="image" class="form-control" onchange="previewImageUpdate()" required>
+                                @if($item->image)
+                                <img src="{{Storage::disk('local')->url($item->image)}}" class="img-preview-update img-fluid mb-3 mt-3 col-sm-3 d-block">
+                                @else
+                                <img class="img-preview-update img-fluid mb-3 mt-3 col-sm-3">
+                                @endif
+                                @error('image')
+                                <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <strong>Category:</strong>
                                 <select name="name_category" class="form-control">
                                     <option value="">- Pilih -</option>
-                                    @foreach ($name_category as $item)
-                                    <option value="{{ $item->id }}" {{old ('name_category') == $item->id ? 'selected' : null}}>{{ $item->name }}</option>
+                                    @foreach ($name_category as $item_edit)
+                                    <option value="{{ $item_edit->id }}" {{$item_edit->id == $item->category['id']? 'selected' : null}}>{{ $item_edit->name}}</option>
                                     @endforeach
                                 </select>
                                 @error('name_category')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
                     </div>
-                </form>
             </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+            </form>
         </div>
     </div>
 </div>
 @endforeach
+
+
+@endsection

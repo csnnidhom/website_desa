@@ -27,6 +27,7 @@
         "@fortawesome/fontawesome-free": "^6.1.1",
         "sweetalert2": "^11.4.7",
         "vform": "^2.1.2",
+        "vue-axios": "^3.4.1",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^2.8.1"
     }

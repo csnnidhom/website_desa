@@ -40,11 +40,18 @@ const Toast = Swal.mixin({
 window.Toast = Toast;
 
 let routes = [
-    {path:'/dashboard', component:require('./components/Dashboard/Dashboard.vue').default},
-    {path:'/berita', component:require('./components/Berita/Berita.vue').default},
-    {path:'/kategori', component:require('./components/Kategori/Kategori.vue').default},
-    {path:'/image', component:require('./components/Image/Image.vue').default},
-    {path:'/video', component:require('./components/Video/Video.vue').default}
+    //Admin
+    {path:'/dashboard', component:require('./components/Admin/Dashboard/Dashboard.vue').default},
+    {path:'/berita', component:require('./components/Admin/Berita/Berita.vue').default},
+    {path:'/kategori', component:require('./components/Admin/Kategori/Kategori.vue').default},
+    {path:'/image', component:require('./components/Admin/Image/Image.vue').default},
+    {path:'/video', component:require('./components/Admin/Video/Video.vue').default},
+
+    //User
+    {path:'/home', component:require('./components/User/Home/Home.vue').default},
+    {path:'/sejarah_desa', component:require('./components/User/Profil_Desa/Sejarah_Desa.vue').default},
+    {path:'/struktur_organisasi', component:require('./components/User/Profil_Desa/Struktur_Organisasi.vue').default},
+    {path:'/visi_misi', component:require('./components/User/Profil_Desa/Visi_Misi.vue').default},
 ]
 
 const router = new VueRouter({

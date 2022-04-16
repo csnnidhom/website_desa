@@ -17,4 +17,9 @@ class Image extends Model
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
+
+    public function scopeSearch($query, $title)
+    {
+        return $query->where('title', 'LIKE', "%{$title}%");
+    }
 }
