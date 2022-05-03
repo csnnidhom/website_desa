@@ -41,7 +41,7 @@
         </a>
     </li>
 
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link " href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-images"></i>
             <span>Galeri</span>
@@ -53,7 +53,7 @@
                 <a class="collapse-item {{ (request()->is('admin/video')) ? 'active' : '' }}" href="/admin/video">Video</a>
             </div>
         </div>
-    </li>
+    </li> -->
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">

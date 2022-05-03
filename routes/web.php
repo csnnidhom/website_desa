@@ -1,18 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\LoginController;
+use App\Http\Controllers\Admin\VideoController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CobaController;
-use App\Http\Controllers\CobaImage;
-use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\VideoController;
-use GuzzleHttp\Middleware;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-use App\Http\Controllers\VueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +21,7 @@ use App\Http\Controllers\VueController;
 */
 
 //login
-Route::get('/admin/login', [LoginController::class, 'login'])->name('login');
+Route::get('/admin', [LoginController::class, 'login'])->name('login');
 Route::post('/postLogin', [LoginController::class, 'postLogin'])->name('postLogin');
 
 Route::group(['middleware' => ['auth']], function () {
@@ -35,17 +30,16 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/admin/berita', BeritaController::class);
     Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
     Route::resource('/admin/kategori', CategoryController::class);
-    Route::resource('/admin/image', ImageController::class);
-    Route::resource('/admin/video', VideoController::class);
+    // Route::resource('/admin/image', ImageController::class);
+    // Route::resource('/admin/video', VideoController::class);
 });
 
 
 //user
 Route::get('/', [UserController::class, 'home']);
-Route::get('/home', [UserController::class, 'home']);
-Route::get('/sejarah_desa', [UserController::class, 'sejarah_desa']);
-Route::get('/berita', [BeritaController::class, 'tampil_berita']);
-Route::get('/berita_detail/{id}', [BeritaController::class, 'detail_berita']);
-
-//vue
-// Route::get('/{any}', [VueController::class, 'index'])->where('any', '.*');
+Route::get('/berita/detail/{id}', [UserController::class, 'detail']);
+Route::get('/visi_misi', [UserController::class, 'visi_misi']);
+Route::get('/struktur_organisasi', [UserController::class, 'struktur_organisasi']);
+Route::get('/organisasi', [UserController::class, 'organisasi']);
+Route::get('/organisasi/kartar', [UserController::class, 'kartar']);
+Route::get('/kontak', [UserController::class, 'kontak']);

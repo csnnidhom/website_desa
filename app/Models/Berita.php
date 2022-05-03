@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Berita extends Model
 {
@@ -21,6 +22,12 @@ class Berita extends Model
     public function scopeSearch($query, $title)
     {
         return $query->where('title', 'LIKE', "%{$title}%");
+    }
+
+    public function getCreatedAtAttribute()
+    {
+        return Carbon::parse($this->attributes['created_at'])
+            ->translatedFormat('l, d F Y');
     }
 
     // public function getProfilePictureAttribute($value)

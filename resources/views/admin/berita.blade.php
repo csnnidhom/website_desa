@@ -18,15 +18,18 @@
 
 <div class="card">
     <div class="card-body">
-        <div class="">
-            <form class="row" method="GET">
-                <div class="col-md-5">
+        <form method="GET">
+            <div class="row ">
+                <div class="col">
                     <button type="button" class="btn btn-primary mb-3" href="#" data-toggle="modal" data-target="#createBerita">
                         Create New Post
                     </button>
                 </div>
-                <div class="col-md-2">
-                    <select name="category" class="form-control">
+
+                <i class="fas fa-filter align-middle">Filter :</i>
+
+                <div class="col-md-3">
+                    <select name="category" class="form-control" onchange="this.form.submit();">
                         <option value="" selected>All</option>
                         @foreach ($name_category as $item)
                         <option value="{{ $item->name }}" {{ request('category') === $item->name ? 'selected' : null }}>
@@ -35,7 +38,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
+            </div>
+            <!-- <div class="col-md-5">
                     <div class="input-group">
                         <input class="form-control border-end-0 border" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="Search Name">
                         <span class="input-group-append">
@@ -44,74 +48,75 @@
                             </button>
                         </span>
                     </div>
-                </div>
-            </form>
-            <table class="table table-bordered ">
-                <thead class="text-center">
-                    <tr>
-                        <th>No</th>
-                        <th>Ubah Status</th>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th style="width:25%">Content</th>
-                        <th>Category</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                @php $no=1; @endphp
-                @forelse ($data as $item)
-                <tbody class="text-center ">
-                    <tr>
-                        <td class="align-middle">{{ $no++ }}</td>
-                        <td class="align-middle">
-                            @if ($item->status == 1)
-                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-danger">Non-Aktifkan</a>
-                            @else
-                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-success">Aktifkan</a>
-                            @endif
-                        </td>
-                        <td class="align-middle"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 75px">
-                        </td>
-                        <td class="align-middle"> {{ $item->title }}</td>
-                        <td class="align-middle">{!! $item->content !!}</td>
-                        <td class="align-middle">{{ $item->category['name']}}</td>
-                        <td class="align-middle">
-
-                            <span class="badge {{ ($item->status == 1 ? 'btn-success' : 'btn-danger') }}">
-                                {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
-
-                        </td>
-                        <td class="align-middle">
-                            <a class="btn btn-link text-primary px-3 mb-0" data-toggle="modal" data-target="#editBerita{{ $item->id }}" href="#">
-                                <i class="fas fa-pencil-alt"> Edit</i>
-                            </a>
-                            <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                                @method('DELETE')
-                                @csrf
-                                <button class="btn btn-link text-danger px-3 mb-0" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
-                                    <i class="fas fa-trash-alt"> Delete</i>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-                @empty
+                </div> -->
+        </form>
+        <table class="table table-bordered ">
+            <thead class="text-center">
                 <tr>
-                    <td colspan="100%" class="text-center">
-                        Data not found
+                    <th>No</th>
+                    <th>Ubah Status</th>
+                    <th>Image</th>
+                    <th>Caption</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            @php $no=1; @endphp
+            @forelse ($data as $item)
+            <tbody class="text-center ">
+                <tr>
+                    <td class="align-middle">{{ $no++ }}</td>
+                    <td class="align-middle">
+                        @if ($item->status == 1)
+                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-danger">Non-Aktifkan</a>
+                        @else
+                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-success">Aktifkan</a>
+                        @endif
+                    </td>
+                    <td class="align-middle"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 75px"></td>
+                    <td class="align-middle">{{Str::limit($item->caption,5)}}</td>
+                    <td class="align-middle"> {{ Str::limit($item->title,5) }}</td>
+                    <td class="align-middle">{!! Str::limit($item->content,50) !!}</td>
+                    <td class="align-middle">{{ $item->category['name']}}</td>
+                    <td class="align-middle">
+
+                        <span class="badge {{ ($item->status == 1 ? 'btn-success' : 'btn-danger') }}">
+                            {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
+
+                    </td>
+                    <td class="align-middle">
+                        <a class="btn btn-link text-primary " data-toggle="modal" data-target="#editBerita{{ $item->id }}" href="#">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <small>|</small>
+                        <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-link text-danger " data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
-                @endforelse
-            </table>
-            @if ($data->hasPages())
-            <div class="row">
-                <div class="col mt-4">
-                    {{ $data->links('pagination::bootstrap-4') }}
-                </div>
+            </tbody>
+            @empty
+            <tr>
+                <td colspan="100%" class="text-center">
+                    Data not found
+                </td>
+            </tr>
+            @endforelse
+        </table>
+        @if ($data->hasPages())
+        <div class="row">
+            <div class="col mt-4">
+                {{ $data->links('pagination::bootstrap-4') }}
             </div>
-            @endif
         </div>
+        @endif
     </div>
 </div>
 
@@ -150,6 +155,10 @@
                                 @error('image')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="form-group">
+                                <strong>Caption :</strong>
+                                <textarea class="form-control" style="height:100px" name="caption" placeholder="Caption" required>{{ old('caption') }}</textarea>
                             </div>
                             <div class="form-group">
                                 <strong>Category:</strong>
@@ -213,6 +222,10 @@
                                 @error('image')
                                 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
                                 @enderror
+                            </div>
+                            <div class="form-group">
+                                <strong>Caption :</strong>
+                                <textarea class="form-control" style="height:100px" name="caption" placeholder="Caption" required>{{ $item->caption }}</textarea>
                             </div>
                             <div class="form-group">
                                 <strong>Category:</strong>

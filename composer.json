@@ -12,6 +12,9 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.5"
     },
+    "platform": {
+        "php": "7.4.3"
+    },
     "require-dev": {
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",

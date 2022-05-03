@@ -16,7 +16,7 @@
     <script src="{{ asset('sb_admin/js/demo/chart-pie-demo.js') }}"></script>
 
     <!-- CKEditor -->
-    <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+    <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script>
         CKEDITOR.replaceAll('my-editor');
 

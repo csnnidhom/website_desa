@@ -17,6 +17,7 @@ class BeritaSeeder extends Seeder
     {
         $berita = [
             'image' => 'coba.png',
+            'caption' => 'ini caption',
             'title' => 'dari seeder',
             'content' => 'dari seeder',
             'id_category' => '1'

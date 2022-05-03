@@ -1,46 +1,30 @@
-<!--
-=========================================================
-* Soft UI Dashboard - v1.0.3
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/soft-ui-dashboard
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://www.creative-tim.com/license)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
--->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{asset('admin_template/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{asset('admin_template/img/favicon.png') }}">
-    <title>
-        Soft UI Dashboard by Creative Tim
-    </title>
-    <!--     Fonts and icons     -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <!-- Nucleo Icons -->
-    <link href="{{asset('admin_template/css/nucleo-icons.css') }}" rel="stylesheet" />
-    <link href="{{asset('admin_template/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="{{asset('admin_template/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <!-- CSS Files -->
-    <link id="pagestyle" href="{{asset('admin_template/css/soft-ui-dashboard.css?v=1.0.3') }}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{asset('sb_admin/login/fonts/icomoon/style.css')}}">
+
+    <link rel="stylesheet" href="{{asset('sb_admin/login/css/owl.carousel.min.css')}}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{asset('sb_admin/login/css/bootstrap.min.css')}}">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="{{asset('sb_admin/login/css/style.css')}}">
+
+    <title>Login </title>
 </head>
 
-<body class="">
-    <div class="container position-sticky z-index-sticky top-0">
+<body>
+    <!-- <div class="container position-sticky z-index-sticky top-0">
         <div class="row">
             <div class="col-12">
-                <!-- Navbar -->
+                
                 <nav class="navbar navbar-expand-lg blur blur-rounded top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
                     <div class="container-fluid">
 
@@ -62,7 +46,7 @@
                         </div>
                     </div>
                 </nav>
-                <!-- End Navbar -->
+                
             </div>
         </div>
     </div>
@@ -118,25 +102,54 @@
                 </div>
             </div>
         </section>
-    </main>
-    <!--   Core JS Files   -->
-    <script src="{{ asset('admin_template/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('admin_template/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('admin_template/js/plugins/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('admin_template/js/plugins/smooth-scrollbar.min.js') }}"></script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="{{ asset('admin_template/js/soft-ui-dashboard.min.js?v=1.0.3') }}"></script>
+    </main> -->
+
+    <div class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 order-md-2">
+                    <img src="{{asset('sb_admin/login/images/undraw_file_sync_ot38.svg')}}" alt="Image" class="img-fluid">
+                </div>
+                <div class="col-md-6 contents">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="mb-4 p-0 d-flex justify-content-center">
+                                <h3><strong>Login</strong></h3>
+                            </div>
+                            <form action="{{ route('postLogin') }}" method="post">
+                                {{ csrf_field() }}
+                                @if(session('error'))
+                                <div class="alert alert-danger">
+                                    {{session('error')}}
+                                </div>
+                                @endif
+                                <div class="form-group first p-2">
+                                    <label for="username">Username</label>
+                                    <input type="text" name="name" class="form-control" id="username">
+
+                                </div>
+                                <div class="form-group last mb-4 p-2">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" class="form-control" id="password">
+
+                                </div>
+
+                                <button type="submit" class="btn text-white btn-block btn-primary">Masuk</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="{{asset('sb_admin/login/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{asset('sb_admin/login/js/popper.min.js')}}"></script>
+    <script src="{{asset('sb_admin/login/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('sb_admin/login/js/main.js')}}"></script>
+
 </body>
 
 </html>
