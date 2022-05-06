@@ -14,7 +14,7 @@
                             <a class="caption-slider" title="Website Sememi Kidul" style="font-family: serif;">Desa Sememi Kidul</a>
                         </h1>
                         <h1 class="animated wow zoomIn" data-wow-delay="0.9s">
-                            <a class="caption-slider" style="font-size: 80%;">Kec. Benowo Kota Surabaya</a>
+                            <a class="caption-slider" style="font-size: 80%;">Kel. Sememi Kec. Benowo Kota Surabaya</a>
                         </h1>
                     </div>
                 </div>
