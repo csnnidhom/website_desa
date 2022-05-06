@@ -12,7 +12,7 @@ class BeritaController extends Controller
 {
     public function index(Request $request)
     {
-        $data = Berita::with(['category'])->orderBy('id_category');
+        $data = Berita::with(['category'])->orderBy('created_at', 'desc');
         $title = 'Berita';
 
         if ($request->get('category')) {

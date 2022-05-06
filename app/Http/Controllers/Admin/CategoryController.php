@@ -41,14 +41,10 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'logo' => 'required|image|mimes:png,jpg,jpeg|max:1000'
         ]);
-
-        $path = $request->file('logo')->store('public/image');
 
         $category = new Category();
         $category->name = $request->name;
-        $category->logo = $path;
         $category->save();
 
         return redirect('admin/kategori')
@@ -91,13 +87,6 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::find($id);
-        if ($request->logo) {
-            $request->validate([
-                'logo' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:1000',
-            ]);
-            $path = $request->file('logo')->store('public/update_images');
-            $category->logo = $path;
-        }
         $category->name = $request->name;
         $category->save();
 

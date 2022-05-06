@@ -1,6 +1,12 @@
 @extends ('user/layout/master')
 
 @section('content')
+<!-- Header -->
+<div class="container-fluid position-relative p-0">
+    <div class="container-fluid bg-primary py-5 bg-header">
+    </div>
+</div>
+
 <!-- Blog Start -->
 <div class="container-fluid py-3 wow fadeInUp" data-wow-delay="0.1s">
     <div class="container py-3">
@@ -11,7 +17,7 @@
                     <nav class="breadcrumbs col-12">
                         <small class="trail-begin"><a href="/" rel="home" class="trail-begin">Beranda</a></small>
                         <small class="sep">»</small>
-                        <small class="trail-end">Berita {{$detail->category['name']}}</small>
+                        <small class="trail-end"><a href="{{route('berita_kartar')}}">Berita Karang Taruna</a></small>
                         <small class="sep">»</small>
                         <small class="trail-end">{{$detail->title}}</small>
                     </nav>

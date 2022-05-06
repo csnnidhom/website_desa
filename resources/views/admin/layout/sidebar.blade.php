@@ -26,6 +26,12 @@
         Menu
     </div>
 
+    <!-- <li class="nav-item {{ (request()->is('admin/kategori')) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="/admin/kategori">
+            <i class="fas fa-list-ul"></i>
+            <span>Organisasi</span>
+        </a>
+    </li> -->
 
     <li class="nav-item {{ (request()->is('admin/berita')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="/admin/berita">
@@ -34,10 +40,17 @@
         </a>
     </li>
 
-    <li class="nav-item {{ (request()->is('admin/kategori')) ? 'active' : '' }}">
-        <a class="nav-link collapsed" href="/admin/kategori">
-            <i class="fas fa-list-ul"></i>
-            <span>Kategori</span>
+    <li class="nav-item {{ (request()->is('admin/anggota')) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="/admin/anggota">
+            <i class="fas fa-user"></i>
+            <span>Anggota</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ (request()->is('admin/pesan')) ? 'active' : '' }}">
+        <a class="nav-link collapsed" href="/admin/pesan">
+            <i class="fas fa-user"></i>
+            <span>Pesan</span>
         </a>
     </li>
 
@@ -55,7 +68,6 @@
         </div>
     </li> -->
 
-    <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{ route('logout') }}" onclick="return confirm('Yakin Logout?')">
             <i class="fas fa-sign-out-alt"></i>

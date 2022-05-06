@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(BeritaSeeder::class);
         $this->call(ImageSeeder::class);
         $this->call(VideoSeeder::class);
+        $this->call(AnggotaSeeder::class);
+        $this->call(PesanSeeder::class);
     }
 }
