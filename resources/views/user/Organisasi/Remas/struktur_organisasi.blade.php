@@ -19,7 +19,7 @@
         </nav>
         <div class="section-title text-center position-relative pb-3 mb-5 mx-auto wow zoomIn" data-wow-delay="0.5s" style="max-width: 600px;">
             <h1 class="mb-0">Struktur Organisasi</h1>
-            <h1 class="mb-0">"Remaja Masji"</h1>
+            <h1 class="mb-0">"Remaja Masjid"</h1>
         </div>
         <div class="wow zoomIn" data-wow-delay="0.9s">
             <div class="position-relative">

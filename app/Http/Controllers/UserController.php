@@ -121,7 +121,7 @@ class UserController extends Controller
     //ASM Putra
     public function asm_putra()
     {
-        $title = "Remaja Masjid";
+        $title = "ASM Putra";
         return view('user/Organisasi/ASM/menu', compact('title'));
     }
 
