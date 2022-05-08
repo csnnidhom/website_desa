@@ -21,15 +21,15 @@
             <h1 class="mb-0">Struktur Organisasi</h1>
             <h1 class="mb-0">"Karang Taruna"</h1>
         </div>
-        <div class="wow zoomIn" data-wow-delay="0.9s" style="min-height: 350px;">
+        <div class="wow zoomIn" data-wow-delay="0.9s">
             <div class="position-relative">
-                <img class="rounded wow zoomIn w-100 h-100 img-thumbnail" data-wow-delay="0.1s" src="{{asset('user/img/struktur-organisasi-kartar.jpg')}}" style="object-fit: cover;">
+                <img class="rounded wow zoomIn w-100 h-100 team-item" data-wow-delay="0.1s" src="{{asset('user/img/struktur-organisasi-kartar.jpg')}}" style="object-fit: cover;">
             </div>
         </div>
         <div class="wow fadeInUp" data-wow-delay="0.1s">
             <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.6s">
                 @foreach($data as $item)
-                <div class="testimonial-item bg-light my-4">
+                <div class="testimonial-item bg-light my-4 " style="height: 20em;">
                     <div class="d-flex align-items-center border-bottom pt-5 pb-4 px-5">
                         <img class="img-fluid rounded" src="{{ Storage::url($item->image) }}" style="width: 60px; height: 60px;">
                         <div class="ps-4">
