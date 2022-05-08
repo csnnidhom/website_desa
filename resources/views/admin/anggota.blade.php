@@ -8,17 +8,17 @@
 </div>
 @endif
 
-<div class="card">
+<div class="card shadow">
     <div class="card-header">
         <form method="GET">
             <div class="row pt-3">
                 <div class="col">
-                    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createAnggota">
+                    <button type="button" class="btn btn-primary mb-3 team-item" data-toggle="modal" data-target="#createAnggota">
                         Create New Post
                     </button>
                 </div>
-                <div class="col-md-3">
-                    <select name="category" class="form-control" onchange="this.form.submit();">
+                <div class="col-2">
+                    <select name="category" class="form-control team-item" onchange="this.form.submit();">
                         <option value="" selected>All</option>
                         @foreach ($name_category as $item)
                         <option value="{{ $item->name }}" {{ request('category') === $item->name ? 'selected' : null }}>
@@ -27,8 +27,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-5">
-                    <div class="input-group">
+                <div class="col-3">
+                    <div class="input-group team-item">
                         <input class="form-control border-end-0 border" type="search" name="keyword" value="{{ request('keyword') }}" placeholder="Search Name">
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary bg-white border" type="submit">
@@ -41,35 +41,70 @@
         </form>
     </div>
     <div class="card-body">
-        <div class="row row-cols-3 justify-content-start">
+        <div class="row">
             @forelse($data as $item)
-            <div class="col mt-2">
-                <div class="card" style="width: 18rem; height:22rem;">
-                    <div class="card-header d-flex">
-                        <img class="img-fluid rounded" src="{{ Storage::url($item->image) }}" style="width: 80px; height: 80px;">
-                        <div class="px-4">
-                            <h4 class="text-primary mb-0" style="font-weight: bold;font-size: 18px">{{$item->name}}</h4>
-                            <small class="text" style="font-style: italic;font-size:12px">{{$item->jabatan}}</small><br>
-                            <small class="text" style="font-style: italic;font-size:12px">{{$item->category['name']}}</small>
+            <div class="col-xl-3 col-md-6 mb-3">
+                <div class="card border-left-primary team-item h-100 py-1">
+                    <div class="card-header">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="font-weight-bold text-primary text-uppercase mb-1">
+                                    {{$item->name}}
+                                </div>
+                                <div class="h6 text-gray-800">
+                                    <figcaption style="font-size: small;font-style: italic;">{{$item->jabatan}}</figcaption>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <img class="img-fluid rounded" src="{{ Storage::url($item->image) }}" style="width: 60px; height: 60px;">
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body d-flex text-justify">{{Str::limit($item->bio,130)}}</div>
-
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                {{Str::limit($item->bio,60)}}
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-footer">
-                        <div class="row row-cols-2">
-                            <div class="col ">
-                                <button type="button" style="width: 8rem;" class="btn btn-primary mb-3" data-toggle="modal" data-target="#editAnggota{{$item->id}}">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card team-item" style="width: 3rem;">
+                                    <a class="btn btn-link text-primary " data-toggle="modal" data-target="#editAnggota{{$item->id}}" href="#">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row-reverse">
+                                <div class="col">
+                                    <form action="{{ route('anggota.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                                        @method('DELETE')
+                                        @csrf
+                                        <div class="card team-item" style="width: 3rem;">
+                                            <a class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="row">
+                            <div class="col">
+                                <button type="button" style="width: 80px;" class="btn btn-primary" data-toggle="modal" data-target="#editAnggota{{$item->id}}">
                                     Edit
                                 </button>
                             </div>
-                            <div class="col ">
+                            <div class="col-auto">
                                 <form action="{{ route('anggota.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
                                     @method('DELETE')
                                     @csrf
-                                    <button style="width: 8rem;" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Hapus</button>
+                                    <button type="button" style="width: 80px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Hapus</button>
                                 </form>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

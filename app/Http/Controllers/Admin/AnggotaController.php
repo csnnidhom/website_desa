@@ -35,7 +35,7 @@ class AnggotaController extends Controller
         }
 
         return view('admin/anggota', [
-            'data' => $data->paginate(6)->withQueryString(),
+            'data' => $data->paginate(8)->withQueryString(),
             'name_category' => Category::all(),
             'title' => $title
         ]);

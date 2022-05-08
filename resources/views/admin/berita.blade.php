@@ -16,27 +16,26 @@
 <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
 @enderror
 
-<div class="card">
-    <div class="card-body">
+<div class="card shadow ">
+    <div class="card-header">
         <form method="GET">
-            <div class="row ">
-                <div class="col">
-                    <button type="button" class="btn btn-primary mb-3" href="#" data-toggle="modal" data-target="#createBerita">
-                        Create New Post
-                    </button>
-                </div>
-
-                <i class="fas fa-filter align-middle">Filter :</i>
-
-                <div class="col-md-3">
-                    <select name="category" class="form-control" onchange="this.form.submit();">
-                        <option value="" selected>All</option>
-                        @foreach ($name_category as $item)
-                        <option value="{{ $item->name }}" {{ request('category') === $item->name ? 'selected' : null }}>
-                            {{ $item->name }}
-                        </option>
-                        @endforeach
-                    </select>
+            <div class="container-fluid">
+                <div class="row ">
+                    <div class="col ">
+                        <button type="button" class="btn btn-primary team-item" href="#" data-toggle="modal" data-target="#createBerita">
+                            + Tambah Berita
+                        </button>
+                    </div>
+                    <div class="col-3">
+                        <select name="category" class="form-control team-item" onchange="this.form.submit();">
+                            <option value="" selected>All</option>
+                            @foreach ($name_category as $item)
+                            <option value="{{ $item->name }}" {{ request('category') === $item->name ? 'selected' : null }}>
+                                {{ $item->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
             </div>
             <!-- <div class="col-md-5">
@@ -50,127 +49,142 @@
                     </div>
                 </div> -->
         </form>
-        <table class="table table-bordered ">
-            <thead class="text-center">
+    </div>
+    <div class="card-body">
+        <div class="table-responsive ">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead class="text-center">
+                    <tr>
+                        <th class="align-middle">No</th>
+                        <th class="align-middle">Ubah Status</th>
+                        <th class="align-middle">Image</th>
+                        <th class="align-middle">Caption</th>
+                        <th class="align-middle">Title</th>
+                        <th class="align-middle">Content</th>
+                        <th class="align-middle">Category</th>
+                        <th class="align-middle">Status</th>
+                        <th class="align-middle">Action</th>
+                    </tr>
+                </thead>
+                @php $no=1; @endphp
+                @forelse ($data as $item)
+                <tbody class="text-center team-item">
+                    <tr>
+                        <td class="align-middle">{{ $no++ }}</td>
+                        <td class="align-middle">
+                            @if ($item->status == 1)
+                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-danger team-item">Non-Aktifkan</a>
+                            @else
+                            <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-success team-item">Aktifkan</a>
+                            @endif
+                        </td>
+                        <td class="align-middle"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 50px"></td>
+                        <td class="align-middle">{{Str::limit($item->caption,20)}}</td>
+                        <td class="align-middle"> {{ Str::limit($item->title,20) }}</td>
+                        <td class="align-middle">{!! Str::limit($item->content,20) !!}</td>
+                        <td class="align-middle">{{ $item->category['name']}}</td>
+                        <td class="align-middle">
+
+                            <span class="badge {{ ($item->status == 1 ? 'btn-success' : 'btn-danger') }}">
+                                {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
+
+                        </td>
+                        <td class="align-middle">
+                            <div class="row">
+                                <div class="d-flex flex-row">
+                                    <div class="col">
+                                        <div class="card team-item" style="width: 3rem;">
+                                            <button class="btn btn-link text-primary " data-toggle="modal" data-target="#editBerita{{ $item->id }}" href="#">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
+                                            @method('DELETE')
+                                            @csrf
+                                            <div class="card team-item" style="width: 3rem;">
+                                                <button class="btn btn-link text-danger " data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                @empty
                 <tr>
-                    <th>No</th>
-                    <th>Ubah Status</th>
-                    <th>Image</th>
-                    <th>Caption</th>
-                    <th>Title</th>
-                    <th>Content</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            @php $no=1; @endphp
-            @forelse ($data as $item)
-            <tbody class="text-center ">
-                <tr>
-                    <td class="align-middle">{{ $no++ }}</td>
-                    <td class="align-middle">
-                        @if ($item->status == 1)
-                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-danger">Non-Aktifkan</a>
-                        @else
-                        <a href="{{ url('/admin/berita/status/'.$item->id) }}" class="btn badge btn-success">Aktifkan</a>
-                        @endif
-                    </td>
-                    <td class="align-middle"><img src="{{ Storage::url($item->image) }}" class="rounded" style="width: 75px"></td>
-                    <td class="align-middle">{{Str::limit($item->caption,5)}}</td>
-                    <td class="align-middle"> {{ Str::limit($item->title,5) }}</td>
-                    <td class="align-middle">{!! Str::limit($item->content,50) !!}</td>
-                    <td class="align-middle">{{ $item->category['name']}}</td>
-                    <td class="align-middle">
-
-                        <span class="badge {{ ($item->status == 1 ? 'btn-success' : 'btn-danger') }}">
-                            {{ ($item->status == 1 ) ? 'Aktif' : 'Tidak Aktif'}}
-
-                    </td>
-                    <td class="align-middle">
-                        <a class="btn btn-link text-primary " data-toggle="modal" data-target="#editBerita{{ $item->id }}" href="#">
-                            <i class="fas fa-pencil-alt"></i>
-                        </a>
-                        <small>|</small>
-                        <form action="{{ route('berita.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-link text-danger " data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </form>
+                    <td colspan="100%" class="text-center">
+                        Data not found
                     </td>
                 </tr>
-            </tbody>
-            @empty
-            <tr>
-                <td colspan="100%" class="text-center">
-                    Data not found
-                </td>
-            </tr>
-            @endforelse
-        </table>
+                @endforelse
+            </table>
 
-        <!-- pagination -->
-        <div class="mt-4">
-            @if ($data->hasPages())
-            <ul class="pagination" role="navigation">
-                {{-- Previous Page Link --}}
-                @if ($data->onFirstPage())
-                <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                    <span class="page-link" aria-hidden="true">&lsaquo;</span>
-                </li>
-                @else
-                <li class="page-item">
-                    <a class="page-link" href="{{ $data->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
-                </li>
-                @endif
-
-                <?php
-                $start = $data->currentPage() - 2; // show 3 pagination links before current
-                $end = $data->currentPage() + 2; // show 3 pagination links after current
-                if ($start < 1) {
-                    $start = 1; // reset start to 1
-                    $end += 1;
-                }
-                if ($end >= $data->lastPage()) $end = $data->lastPage(); // reset end to last page
-                ?>
-
-                @if($start > 1)
-                <li class="page-item">
-                    <a class="page-link" href="{{ $data->url(1) }}">{{1}}</a>
-                </li>
-                @if($data->currentPage() != 4)
-                {{-- "Three Dots" Separator --}}
-                <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
-                @endif
-                @endif
-                @for ($i = $start; $i <= $end; $i++) <li class="page-item {{ ($data->currentPage() == $i) ? ' active' : '' }}">
-                    <a class="page-link" href="{{ $data->url($i) }}">{{$i}}</a>
+            <!-- pagination -->
+            <div class="mt-4">
+                @if ($data->hasPages())
+                <ul class="pagination" role="navigation">
+                    {{-- Previous Page Link --}}
+                    @if ($data->onFirstPage())
+                    <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                        <span class="page-link" aria-hidden="true">&lsaquo;</span>
                     </li>
-                    @endfor
-                    @if($end < $data->lastPage())
-                        @if($data->currentPage() + 3 != $data->lastPage())
-                        {{-- "Three Dots" Separator --}}
-                        <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
-                        @endif
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $data->url($data->lastPage()) }}">{{$data->lastPage()}}</a>
-                        </li>
-                        @endif
+                    @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $data->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
+                    </li>
+                    @endif
 
-                        {{-- Next Page Link --}}
-                        @if ($data->hasMorePages())
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                    <?php
+                    $start = $data->currentPage() - 2; // show 3 pagination links before current
+                    $end = $data->currentPage() + 2; // show 3 pagination links after current
+                    if ($start < 1) {
+                        $start = 1; // reset start to 1
+                        $end += 1;
+                    }
+                    if ($end >= $data->lastPage()) $end = $data->lastPage(); // reset end to last page
+                    ?>
+
+                    @if($start > 1)
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $data->url(1) }}">{{1}}</a>
+                    </li>
+                    @if($data->currentPage() != 4)
+                    {{-- "Three Dots" Separator --}}
+                    <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+                    @endif
+                    @endif
+                    @for ($i = $start; $i <= $end; $i++) <li class="page-item {{ ($data->currentPage() == $i) ? ' active' : '' }}">
+                        <a class="page-link" href="{{ $data->url($i) }}">{{$i}}</a>
                         </li>
-                        @else
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">&rsaquo;</span>
-                        </li>
-                        @endif
-            </ul>
-            @endif
+                        @endfor
+                        @if($end < $data->lastPage())
+                            @if($data->currentPage() + 3 != $data->lastPage())
+                            {{-- "Three Dots" Separator --}}
+                            <li class="page-item disabled" aria-disabled="true"><span class="page-link">...</span></li>
+                            @endif
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $data->url($data->lastPage()) }}">{{$data->lastPage()}}</a>
+                            </li>
+                            @endif
+
+                            {{-- Next Page Link --}}
+                            @if ($data->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $data->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
+                            </li>
+                            @else
+                            <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                                <span class="page-link" aria-hidden="true">&rsaquo;</span>
+                            </li>
+                            @endif
+                </ul>
+                @endif
+            </div>
         </div>
     </div>
 </div>
@@ -243,7 +257,7 @@
 
 <!-- Modal Edit Berita-->
 @foreach ($data as $item)
-<div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editBerita{{ $item->id }}" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content ">
             <div class="modal-header">

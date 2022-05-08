@@ -1,13 +1,13 @@
     <!-- Navbar & Carousel Start -->
     <div class="container-fluid position-relative p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 py-lg-0">
-            <div class="col-2 col-sm-2 col-md-2 ">
+            <div class="col ">
                 <a href="/" class="navbar-brand ">
-                    <img src="{{asset('user/img/nu.png')}}" style=" width: 100%;" alt="Image">
+                    <img src="{{asset('user/img/nu.png')}}" style=" width: 50%;" alt="Image">
                 </a>
             </div>
 
-            <div class="col-4 col-sm-6 col-md-7  d-flex justify-content-end">
+            <div class="col d-flex justify-content-end">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
