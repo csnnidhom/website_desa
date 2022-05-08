@@ -48,9 +48,9 @@
                             <small><i class="far fa-calendar-alt text-primary me-2"></i>{{ $item->created_at }}</small>
                         </div>
                         <a href="/berita/detail/{{ $item->id }}">
-                            <h4 class="mb-3">{{ Str::limit($item->title,50) }}</h4>
+                            <h4 class="mb-3">{{ Str::limit($item->title,20) }}</h4>
                         </a>
-                        <p>{!! Str::limit($item->content,80) !!}</p>
+                        <p>{!! Str::limit($item->content,50) !!}</p>
                         <a class="text-uppercase" href="/berita/detail/{{ $item->id }}">Baca Selengkapnya<i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
