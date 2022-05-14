@@ -30,6 +30,11 @@
     <!-- Template Stylesheet -->
     <link href="{{asset('user/css/style.css')}}" rel="stylesheet">
 
+    <!-- Calender -->
+    <link rel="stylesheet" href="{{asset('calender/fullcalender.css')}}" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+
 
 </head>
 
@@ -82,6 +87,10 @@
 
     <!-- Template Javascript -->
     <script src="{{asset('user/js/main.js')}}"></script>
+
+    <!-- Calender -->
+    <script src="{{asset('calender/script.js')}}"></script>
+    <script src="{{asset('calender/fullcalender.js')}}"></script>
 
 </body>
 

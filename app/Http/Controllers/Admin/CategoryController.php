@@ -87,6 +87,7 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::find($id);
+
         $category->name = $request->name;
         $category->save();
 
@@ -102,7 +103,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('category')->where('id', $id)->delete();
+        Category::where('id', $id)->delete();
         return redirect('admin/kategori')->with('success', 'Category Has Been Deleted');
     }
 }

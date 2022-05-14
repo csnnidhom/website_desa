@@ -8,13 +8,6 @@
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('sb_admin/js/sb-admin-2.min.js') }}"></script>
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('sb_admin/vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('sb_admin/js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('sb_admin/js/demo/chart-pie-demo.js') }}"></script>
-
     <!-- CKEditor -->
     <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script>
     <script>
@@ -47,6 +40,4 @@
                 imgPreview.src = oFREvent.target.result;
             }
         }
-    </script>
-
     </script>

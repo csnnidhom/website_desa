@@ -5,6 +5,10 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ImageController;
+use App\Http\Controllers\Admin\KegiatanAsmController;
+use App\Http\Controllers\Admin\KegiatanController;
+use App\Http\Controllers\Admin\KegiatanKartarController;
+use App\Http\Controllers\Admin\KegiatanRemasController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\PesanController;
 use App\Http\Controllers\Admin\VideoController;
@@ -31,7 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index']);
     Route::resource('/admin/berita', BeritaController::class);
     Route::get('/admin/berita/status/{id}', [BeritaController::class, 'ubahStatus']);
-    // Route::resource('/admin/kategori', CategoryController::class);
+    Route::resource('/admin/kategori', CategoryController::class);
+
     Route::resource('/admin/anggota', AnggotaController::class);
     Route::resource('/admin/pesan', PesanController::class);
     // Route::resource('/admin/image', ImageController::class);

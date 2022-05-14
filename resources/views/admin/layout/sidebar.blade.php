@@ -26,12 +26,12 @@
         Menu
     </div>
 
-    <!-- <li class="nav-item {{ (request()->is('admin/kategori')) ? 'active' : '' }}">
+    <li class="nav-item {{ (request()->is('admin/kategori')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="/admin/kategori">
             <i class="fas fa-list-ul"></i>
             <span>Organisasi</span>
         </a>
-    </li> -->
+    </li>
 
     <li class="nav-item {{ (request()->is('admin/berita')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="/admin/berita">
@@ -49,7 +49,7 @@
 
     <li class="nav-item {{ (request()->is('admin/pesan')) ? 'active' : '' }}">
         <a class="nav-link collapsed" href="/admin/pesan">
-            <i class="fas fa-user"></i>
+            <i class="fas fa-comment-dots"></i>
             <span>Pesan</span>
         </a>
     </li>

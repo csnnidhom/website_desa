@@ -16,9 +16,15 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $category = [
-            ['name' => 'Desa'],
-            ['name' => 'Karang Taruna'],
-            ['name' => 'Remaja Masjid']
+            [
+                'name' => 'Karang Taruna',
+            ],
+            [
+                'name' => 'Remaja Masjid',
+            ],
+            [
+                'name' => 'ASM Putra',
+            ]
         ];
 
         Category::insert($category);

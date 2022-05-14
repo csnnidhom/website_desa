@@ -71,9 +71,9 @@
                         <div class="row">
                             <div class="col">
                                 <div class="card team-item" style="width: 3rem;">
-                                    <a class="btn btn-link text-primary " data-toggle="modal" data-target="#editAnggota{{$item->id}}" href="#">
+                                    <button class="btn btn-link text-primary " data-toggle="modal" data-target="#editAnggota{{$item->id}}" href="#">
                                         <i class="fas fa-pencil-alt"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                             <div class="d-flex flex-row-reverse">
@@ -82,29 +82,14 @@
                                         @method('DELETE')
                                         @csrf
                                         <div class="card team-item" style="width: 3rem;">
-                                            <a class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
+                                            <button class="btn btn-link text-danger" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">
                                                 <i class="fas fa-trash-alt"></i>
-                                            </a>
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- <div class="row">
-                            <div class="col">
-                                <button type="button" style="width: 80px;" class="btn btn-primary" data-toggle="modal" data-target="#editAnggota{{$item->id}}">
-                                    Edit
-                                </button>
-                            </div>
-                            <div class="col-auto">
-                                <form action="{{ route('anggota.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin Hapus Data?')">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="button" style="width: 80px;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="{{ $item->id }}">Hapus</button>
-                                </form>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>

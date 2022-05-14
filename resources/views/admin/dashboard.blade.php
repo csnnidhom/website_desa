@@ -1,3 +1,5 @@
 @extends('admin.layout.master_admin')
 
-@section('content', 'Ini Dashboard')
+@section('content')
+<h1>dashboard</h1>
+@endsection

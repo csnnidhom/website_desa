@@ -13,6 +13,7 @@ class UserController extends Controller
     public function home(Request $request)
     {
         $title = "Home";
+        $organisasi = Category::all();
         $data = Berita::with(['category'])->orderBy('created_at', 'desc')->where('status', 1);
 
         if ($request->get('category')) {
@@ -32,8 +33,8 @@ class UserController extends Controller
 
         return view('user/Home/home', [
             'data' => $data->paginate(6)->withQueryString(),
-            'name_category' => Category::all(),
             'title' => $title,
+            'organisasi' => $organisasi
         ]);
     }
 
@@ -42,8 +43,8 @@ class UserController extends Controller
         $title = "Berita Detail";
         $berita_terbaru = Berita::orderBy('created_at', 'desc')->limit(3)->get();
         $detail = Berita::where('id', $id)->first();
-        $name_category = Category::all();
-        return view('user/Home/berita_detail', compact('detail', 'title', 'berita_terbaru', 'name_category'));
+        $organisasi = Category::all();
+        return view('user/Home/berita_detail', compact('detail', 'title', 'berita_terbaru', 'organisasi'));
     }
 
     public function visi_misi()
@@ -60,8 +61,7 @@ class UserController extends Controller
     public function organisasi()
     {
         $title = "Organisasi";
-        $data = Category::all();
-        return view('user/Organisasi/organisasi', compact('title',  'data'));
+        return view('user/Organisasi/organisasi', compact('title'));
     }
 
     // Kartar
